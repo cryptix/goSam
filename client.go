@@ -3,12 +3,11 @@ package goSam
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"net"
 )
 
 type Client struct {
-	samConn io.ReadWriteCloser
+	samConn net.Conn
 
 	fromSam *bufio.Reader
 	toSam   *bufio.Writer
