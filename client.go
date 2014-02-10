@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"net"
 )
 
 type Client struct {
@@ -13,11 +14,19 @@ type Client struct {
 	toSam   *bufio.Writer
 }
 
-func NewClient(samConn io.ReadWriteCloser) (*Client, error) {
+func NewDefaultClient() (*Client, error) {
+	return NewClient("localhost:7656")
+}
+
+func NewClient(addr string) (*Client, error) {
+	conn, err := net.Dial("tcp", addr)
+	if err != nil {
+		return nil, err
+	}
 	c := &Client{
-		samConn: samConn,
-		fromSam: bufio.NewReader(samConn),
-		toSam:   bufio.NewWriter(samConn),
+		samConn: conn,
+		fromSam: bufio.NewReader(conn),
+		toSam:   bufio.NewWriter(conn),
 	}
 	return c, nil
 }

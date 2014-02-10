@@ -1,9 +1,6 @@
 package goSam
 
-import (
-	"net"
-	"testing"
-)
+import "testing"
 
 var (
 	client *Client
@@ -13,12 +10,7 @@ func setup() {
 	var err error
 
 	// these tests expect a running SAM brige on this address
-	conn, err := net.Dial("tcp", "localhost:7656")
-	if err != nil {
-		panic(err)
-	}
-
-	client, err = NewClient(conn)
+	client, err = NewDefaultClient()
 	if err != nil {
 		panic(err)
 	}
