@@ -3,14 +3,13 @@ package goSam
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net"
 )
 
 type Client struct {
-	samConn net.Conn
-
-	fromSam *bufio.Reader
-	toSam   *bufio.Writer
+	SamConn net.Conn
+	verbose bool
 }
 
 // create a new client, connecting to the default host:port at localhost:7656
@@ -24,20 +23,19 @@ func NewClient(addr string) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	c := &Client{
-		samConn: conn,
-		fromSam: bufio.NewReader(conn),
-		toSam:   bufio.NewWriter(conn),
-	}
+	c := &Client{conn, false}
 	return c, c.hello()
+}
+
+func (c *Client) ToggleVerbose() {
+	c.verbose = !c.verbose
 }
 
 // send the initial handshake command and check that the reply is ok
 func (c *Client) hello() (err error) {
-	const hello = "HELLO VERSION MIN=3.0 MAX=3.0\n"
 	var r *Reply
 
-	r, err = c.sendCmd(hello)
+	r, err = c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0")
 	if err != nil {
 		return err
 	}
@@ -46,7 +44,7 @@ func (c *Client) hello() (err error) {
 		return fmt.Errorf("Unknown Reply: %+v\n", r)
 	}
 
-	if r.Pairs["RESULT"] != "OK" || r.Pairs["VERSION"] != "3.0\n" {
+	if r.Pairs["RESULT"] != "OK" || r.Pairs["VERSION"] != "3.0" {
 		return fmt.Errorf("Handshake did not succeed\nReply:%+v\n", r)
 	}
 
@@ -55,17 +53,22 @@ func (c *Client) hello() (err error) {
 
 // helper to send one command and parse the reply by sam
 func (c *Client) sendCmd(cmd string) (r *Reply, err error) {
-	if _, err = c.toSam.WriteString(cmd); err != nil {
+	if _, err = fmt.Fprintln(c.SamConn, cmd); err != nil {
 		return
 	}
 
-	if err = c.toSam.Flush(); err != nil {
-		return
+	if c.verbose {
+		log.Printf(">Send>'%s'\n", cmd)
 	}
 
-	line, err := c.fromSam.ReadString('\n')
+	reader := bufio.NewReader(c.SamConn)
+	line, err := reader.ReadString('\n')
 	if err != nil {
 		return
+	}
+
+	if c.verbose {
+		log.Printf("<Rcvd<'%s'\n", line)
 	}
 
 	r, err = parseReply(line)
@@ -73,5 +76,5 @@ func (c *Client) sendCmd(cmd string) (r *Reply, err error) {
 }
 
 func (c *Client) Close() error {
-	return c.samConn.Close()
+	return c.SamConn.Close()
 }

@@ -13,6 +13,7 @@ type Reply struct {
 }
 
 func parseReply(line string) (r *Reply, err error) {
+	line = strings.TrimSpace(line)
 	parts := strings.Split(line, " ")
 	if len(parts) < 3 {
 		return nil, fmt.Errorf("Malformed Reply.\n%s\n", line)

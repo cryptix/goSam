@@ -1,7 +1,6 @@
 package goSam
 
 import (
-	"fmt"
 	"net"
 	"strings"
 )
@@ -17,8 +16,6 @@ func (c *Client) Dial(network, addr string) (net.Conn, error) {
 		return nil, err
 	}
 
-	fmt.Println("Dial Lookup:", addr)
-
 	id, _, err := c.createStreamSession("")
 	if err != nil {
 		return nil, err
@@ -29,13 +26,14 @@ func (c *Client) Dial(network, addr string) (net.Conn, error) {
 		return nil, err
 	}
 
-	fmt.Println("newC Hello OK")
+	if c.verbose {
+		newC.ToggleVerbose()
+	}
 
-	if newC.StreamConnect(id, addr) != nil {
+	err = newC.StreamConnect(id, addr)
+	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("StreamConnect OK")
-
-	return newC.samConn, nil
+	return newC.SamConn, nil
 }

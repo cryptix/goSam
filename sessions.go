@@ -14,7 +14,7 @@ func (c *Client) createStreamSession(dest string) (id int32, newDest string, err
 	var r *Reply
 
 	id = rand.Int31n(math.MaxInt32)
-	createCmd := fmt.Sprintf("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s\n", id, dest)
+	createCmd := fmt.Sprintf("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s", id, dest)
 	r, err = c.sendCmd(createCmd)
 	if err != nil {
 		return
@@ -31,7 +31,6 @@ func (c *Client) createStreamSession(dest string) (id int32, newDest string, err
 		return
 	}
 
-	fmt.Println("createStreamSession created")
 	newDest = r.Pairs["DESTINATION"]
 
 	return

@@ -10,7 +10,7 @@ var validCases = []struct {
 }{
 	// hello handshake reply
 	{
-		"HELLO REPLY RESULT=OK VERSION=3.0",
+		"HELLO REPLY RESULT=OK VERSION=3.0\n",
 		Reply{
 			Topic: "HELLO",
 			Type:  "REPLY",
@@ -22,7 +22,7 @@ var validCases = []struct {
 	},
 	// result of a naming lookup
 	{
-		"NAMING REPLY RESULT=OK NAME=zzz.i2p VALUE=SomeValueForTesting",
+		"NAMING REPLY RESULT=OK NAME=zzz.i2p VALUE=SomeValueForTesting\n",
 		Reply{
 			Topic: "NAMING",
 			Type:  "REPLY",
@@ -35,13 +35,23 @@ var validCases = []struct {
 	},
 	// session status reply
 	{
-		"SESSION STATUS RESULT=I2P_ERROR MESSAGE=TheMessageFromI2p",
+		"SESSION STATUS RESULT=I2P_ERROR MESSAGE=TheMessageFromI2p\n",
 		Reply{
 			Topic: "SESSION",
 			Type:  "STATUS",
 			Pairs: map[string]string{
 				"RESULT":  "I2P_ERROR",
 				"MESSAGE": "TheMessageFromI2p",
+			},
+		},
+	},
+	{
+		"STREAM STATUS RESULT=CANT_REACH_PEER\n",
+		Reply{
+			Topic: "STREAM",
+			Type:  "STATUS",
+			Pairs: map[string]string{
+				"RESULT": "CANT_REACH_PEER",
 			},
 		},
 	},
@@ -64,7 +74,7 @@ func TestParseReplyValidCases(t *testing.T) {
 
 		for expK, expV := range tcase.Expected.Pairs {
 			if expV != parsed.Pairs[expK] {
-				t.Fatalf("Wrong %s. Got %s expected %s", expK, parsed.Pairs[expK], expV)
+				t.Fatalf("Wrong %s.\nGot '%s'\nExpected '%s'", expK, parsed.Pairs[expK], expV)
 			}
 		}
 	}

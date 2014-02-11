@@ -28,7 +28,7 @@ func (r ReplyError) Error() string {
 func (c *Client) Lookup(name string) (addr string, err error) {
 	var r *Reply
 
-	r, err = c.sendCmd(fmt.Sprintf("NAMING LOOKUP NAME=%s\n", name))
+	r, err = c.sendCmd(fmt.Sprintf("NAMING LOOKUP NAME=%s", name))
 	if err != nil {
 		return
 	}

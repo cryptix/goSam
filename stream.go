@@ -7,7 +7,7 @@ import (
 func (c *Client) StreamConnect(id int32, dest string) (err error) {
 	var r *Reply
 
-	r, err = c.sendCmd(fmt.Sprintf("STREAM CONNECT ID=%d DESTINATION=%s\n", id, dest))
+	r, err = c.sendCmd(fmt.Sprintf("STREAM CONNECT ID=%d DESTINATION=%s", id, dest))
 	if err != nil {
 		return err
 	}
@@ -18,8 +18,7 @@ func (c *Client) StreamConnect(id int32, dest string) (err error) {
 
 	result := r.Pairs["RESULT"]
 	if result != "OK" {
-		err = ReplyError{result, r}
-		return
+		return ReplyError{result, r}
 	}
 
 	fmt.Println("StreamConnect OK")
