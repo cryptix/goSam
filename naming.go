@@ -26,26 +26,9 @@ func (r ReplyError) Error() string {
 }
 
 func (c *Client) Lookup(name string) (addr string, err error) {
-	msg := fmt.Sprintf("NAMING LOOKUP NAME=%s\n", name)
-	if _, err = c.toSam.WriteString(msg); err != nil {
-		return
-	}
+	var r *Reply
 
-	if err = c.toSam.Flush(); err != nil {
-		return
-	}
-
-	var (
-		line string
-		r    *Reply
-	)
-
-	line, err = c.fromSam.ReadString('\n')
-	if err != nil {
-		return
-	}
-
-	r, err = parseReply(line)
+	r, err = c.sendCmd(fmt.Sprintf("NAMING LOOKUP NAME=%s\n", name))
 	if err != nil {
 		return
 	}
@@ -55,18 +38,17 @@ func (c *Client) Lookup(name string) (addr string, err error) {
 		return
 	}
 
-	switch r.Pairs["RESULT"] {
-	case "OK":
-		addr = r.Pairs["VALUE"]
-		return
-	case "KEY_NOT_FOUND":
-		err = ReplyError{ResultKeyNotFound, r}
+	result := r.Pairs["RESULT"]
+	if result != "OK" {
+		err = ReplyError{result, r}
 		return
 	}
 
 	if r.Pairs["NAME"] != name {
-		err = fmt.Errorf("i2p Replyied with: %+v\n", r)
+		err = fmt.Errorf("i2p Replyed to another name.\nWanted:%s\nGot: %+v\n", name, r)
+		return
 	}
 
+	addr = r.Pairs["VALUE"]
 	return
 }

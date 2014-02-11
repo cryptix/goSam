@@ -51,7 +51,25 @@ func (c *Client) hello() (err error) {
 	}
 
 	return nil
+}
 
+// helper to send one command and parse the reply by sam
+func (c *Client) sendCmd(cmd string) (r *Reply, err error) {
+	if _, err = c.toSam.WriteString(cmd); err != nil {
+		return
+	}
+
+	if err = c.toSam.Flush(); err != nil {
+		return
+	}
+
+	line, err := c.fromSam.ReadString('\n')
+	if err != nil {
+		return
+	}
+
+	r, err = parseReply(line)
+	return
 }
 
 func (c *Client) Close() error {
