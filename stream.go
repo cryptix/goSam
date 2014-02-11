@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Asks SAM for a TCP-Like connection to dest, has to be called on a new Client
 func (c *Client) StreamConnect(id int32, dest string) (err error) {
 	var r *Reply
 
@@ -21,6 +22,5 @@ func (c *Client) StreamConnect(id int32, dest string) (err error) {
 		return ReplyError{result, r}
 	}
 
-	fmt.Println("StreamConnect OK")
 	return nil
 }

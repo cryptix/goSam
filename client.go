@@ -7,6 +7,7 @@ import (
 	"net"
 )
 
+// A Client represents a single Connection to the SAM bridge
 type Client struct {
 	SamConn net.Conn
 	verbose bool
@@ -27,6 +28,7 @@ func NewClient(addr string) (*Client, error) {
 	return c, c.hello()
 }
 
+// switches logging on or off. (also passed to new clients inside Dial.)
 func (c *Client) ToggleVerbose() {
 	c.verbose = !c.verbose
 }
@@ -75,6 +77,7 @@ func (c *Client) sendCmd(cmd string) (r *Reply, err error) {
 	return
 }
 
+// Close the underlying socket to SAM
 func (c *Client) Close() error {
 	return c.SamConn.Close()
 }

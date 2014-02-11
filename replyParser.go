@@ -5,6 +5,30 @@ import (
 	"strings"
 )
 
+// The Possible Results send by SAM
+const (
+	ResultOk             = "OK"              //Operation completed successfully
+	ResultCantReachPeer  = "CANT_REACH_PEER" //The peer exists, but cannot be reached
+	ResultDuplicatedId   = "DUPLICATED_ID"   //If the nickname is already associated with a session :
+	ResultDuplicatedDest = "DUPLICATED_DEST" //The specified Destination is already in use
+	ResultI2PError       = "I2P_ERROR"       //A generic I2P error (e.g. I2CP disconnection, etc.)
+	ResultInvalidKey     = "INVALID_KEY"     //The specified key is not valid (bad format, etc.)
+	ResultKeyNotFound    = "KEY_NOT_FOUND"   //The naming system can't resolve the given name
+	ResultPeerNotFound   = "PEER_NOT_FOUND"  //The peer cannot be found on the network
+	ResultTimeout        = "TIMEOUT"         // Timeout while waiting for an event (e.g. peer answer)
+)
+
+// Custom error type, containing the Result and full Reply
+type ReplyError struct {
+	Result string
+	Reply  *Reply
+}
+
+func (r ReplyError) Error() string {
+	return fmt.Sprintf("ReplyError: Result:%s - Reply:%+v", r.Result, r.Reply)
+}
+
+// Parsed Reply type containing a map of all the key-value pairs
 type Reply struct {
 	Topic string
 	Type  string

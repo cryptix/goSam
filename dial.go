@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// implements the net.Dial function to be used as http.Transport
+// Implements the net.Dial function can be used for http.Transport
 func (c *Client) Dial(network, addr string) (net.Conn, error) {
 	portIdx := strings.Index(addr, ":")
 	if portIdx >= 0 {
@@ -16,7 +16,7 @@ func (c *Client) Dial(network, addr string) (net.Conn, error) {
 		return nil, err
 	}
 
-	id, _, err := c.createStreamSession("")
+	id, _, err := c.CreateStreamSession("")
 	if err != nil {
 		return nil, err
 	}
