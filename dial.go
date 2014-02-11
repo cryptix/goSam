@@ -8,7 +8,10 @@ import (
 
 // implements the net.Dial function to be used as http.Transport
 func (c *Client) Dial(network, addr string) (net.Conn, error) {
-	addr = addr[:strings.Index(addr, ":")]
+	portIdx := strings.Index(addr, ":")
+	if portIdx >= 0 {
+		addr = addr[:portIdx]
+	}
 	addr, err := c.Lookup(addr)
 	if err != nil {
 		return nil, err
@@ -23,10 +26,6 @@ func (c *Client) Dial(network, addr string) (net.Conn, error) {
 
 	newC, err := NewDefaultClient()
 	if err != nil {
-		return nil, err
-	}
-
-	if newC.Hello() != nil {
 		return nil, err
 	}
 

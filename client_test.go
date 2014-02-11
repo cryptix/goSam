@@ -23,11 +23,10 @@ func teardown() {
 func TestClientHello(t *testing.T) {
 	var err error
 
-	setup()
-	defer teardown()
-
-	err = client.Hello()
+	client, err = NewDefaultClient()
 	if err != nil {
 		t.Errorf("client.Hello() should not throw an error.\n%s\n", err)
 	}
+
+	client.Close()
 }
