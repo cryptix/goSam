@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Asks SAM for a TCP-Like connection to dest, has to be called on a new Client
+// StreamConnect asks SAM for a TCP-Like connection to dest, has to be called on a new Client
 func (c *Client) StreamConnect(id int32, dest string) (err error) {
 	var r *Reply
 
@@ -25,7 +25,7 @@ func (c *Client) StreamConnect(id int32, dest string) (err error) {
 	return nil
 }
 
-// Ask SAM to accept a TCP-Like connection
+// StreamAccept asks SAM to accept a TCP-Like connection
 func (c *Client) StreamAccept(id int32) (r *Reply, err error) {
 
 	r, err = c.sendCmd(fmt.Sprintf("STREAM ACCEPT ID=%d SILENT=false", id))

@@ -6,7 +6,8 @@ import (
 	"math/rand"
 )
 
-// Create a new STREAM Session. Returns the Id for the new Client.
+// CreateStreamSession creates a new STREAM Session.
+// Returns the Id for the new Client.
 func (c *Client) CreateStreamSession(dest string) (id int32, newDest string, err error) {
 	if dest == "" {
 		dest = "TRANSIENT"

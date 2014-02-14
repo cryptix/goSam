@@ -9,7 +9,7 @@ import (
 const (
 	ResultOk             = "OK"              //Operation completed successfully
 	ResultCantReachPeer  = "CANT_REACH_PEER" //The peer exists, but cannot be reached
-	ResultDuplicatedId   = "DUPLICATED_ID"   //If the nickname is already associated with a session :
+	ResultDuplicatedID   = "DUPLICATED_ID"   //If the nickname is already associated with a session :
 	ResultDuplicatedDest = "DUPLICATED_DEST" //The specified Destination is already in use
 	ResultI2PError       = "I2P_ERROR"       //A generic I2P error (e.g. I2CP disconnection, etc.)
 	ResultInvalidKey     = "INVALID_KEY"     //The specified key is not valid (bad format, etc.)
@@ -18,7 +18,7 @@ const (
 	ResultTimeout        = "TIMEOUT"         // Timeout while waiting for an event (e.g. peer answer)
 )
 
-// Custom error type, containing the Result and full Reply
+// A ReplyError is a custom error type, containing the Result and full Reply
 type ReplyError struct {
 	Result string
 	Reply  *Reply
@@ -28,7 +28,7 @@ func (r ReplyError) Error() string {
 	return fmt.Sprintf("ReplyError: Result:%s - Reply:%+v", r.Result, r.Reply)
 }
 
-// Parsed Reply type containing a map of all the key-value pairs
+// Reply is the parsed result of a SAM command, containing a map of all the key-value pairs
 type Reply struct {
 	Topic string
 	Type  string

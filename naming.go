@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Lookup askes SAM for the internal i2p address from name
 func (c *Client) Lookup(name string) (addr string, err error) {
 	var r *Reply
 

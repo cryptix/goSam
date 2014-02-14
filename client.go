@@ -13,12 +13,12 @@ type Client struct {
 	verbose bool
 }
 
-// create a new client, connecting to the default host:port at localhost:7656
+// NewDefaultClient creates a new client, connecting to the default host:port at localhost:7656
 func NewDefaultClient() (*Client, error) {
 	return NewClient("localhost:7656")
 }
 
-// create a new client, connecting to a specified port
+// NewClient creates a new client, connecting to a specified port
 func NewClient(addr string) (*Client, error) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
@@ -28,7 +28,8 @@ func NewClient(addr string) (*Client, error) {
 	return c, c.hello()
 }
 
-// switches logging on or off. (also passed to new clients inside Dial.)
+// ToggleVerbose switches logging on or off.
+// (also passed to new clients inside Dial.)
 func (c *Client) ToggleVerbose() {
 	c.verbose = !c.verbose
 }

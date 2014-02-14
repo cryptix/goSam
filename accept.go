@@ -5,7 +5,7 @@ import (
 	"net"
 )
 
-// creates a new Client and Accept a connection on it
+// Accept creates a new Client and accepts a connection on it
 func (c *Client) Accept() (net.Conn, error) {
 	id, newAddr, err := c.CreateStreamSession("")
 	if err != nil {
