@@ -24,7 +24,10 @@ func NewClient(addr string) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	c := &Client{conn, false}
+	c := &Client{
+		SamConn: conn,
+		verbose: false,
+	}
 	return c, c.hello()
 }
 

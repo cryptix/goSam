@@ -6,27 +6,25 @@ var (
 	client *Client
 )
 
-func setup() {
+func setup(t *testing.T) {
 	var err error
 
 	// these tests expect a running SAM brige on this address
 	client, err = NewDefaultClient()
 	if err != nil {
-		panic(err)
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
+
+	//client.ToggleVerbose()
 }
 
-func teardown() {
-	client.Close()
+func teardown(t *testing.T) {
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
 }
 
 func TestClientHello(t *testing.T) {
-	var err error
-
-	client, err = NewDefaultClient()
-	if err != nil {
-		t.Errorf("client.Hello() should not throw an error.\n%s\n", err)
-	}
-
-	client.Close()
+	setup(t)
+	teardown(t)
 }

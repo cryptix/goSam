@@ -8,8 +8,8 @@ import (
 func TestClientLookupInvalid(t *testing.T) {
 	var err error
 
-	setup()
-	defer teardown()
+	setup(t)
+	defer teardown(t)
 
 	addr, err := client.Lookup("abci2p")
 	if addr != "" || err == nil {
@@ -17,20 +17,25 @@ func TestClientLookupInvalid(t *testing.T) {
 	}
 
 	repErr, ok := err.(ReplyError)
-	if ok && repErr.Result != ResultKeyNotFound {
-		t.Error("client.Lookup() should throw an ResultKeyNotFound error. Got:%v\n", repErr)
+	if !ok {
+		t.Fatalf("client.Lookup() should return a ReplyError")
+	}
+	if repErr.Result != ResultKeyNotFound {
+		t.Errorf("client.Lookup() should throw an ResultKeyNotFound error.\nGot:%+v\n", repErr)
 	}
 }
 
 func ExampleClient_Lookup() {
-	var err error
-
-	setup()
-	defer teardown()
+	client, err := NewDefaultClient()
+	if err != nil {
+		fmt.Printf("NewDefaultClient() should not throw an error.\n%s\n", err)
+		return
+	}
 
 	_, err = client.Lookup("zzz.i2p")
 	if err != nil {
 		fmt.Printf("client.Lookup() should not throw an error.\n%s\n", err)
+		return
 	}
 
 	fmt.Println("Address of zzz.i2p:")
