@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	//In order to enable debugging, pass the SetDebug(true) option.
+    //sam, err := goSam.NewClientFromOptions(SetDebug(true))
+
 	// create a default sam client
 	sam, err := goSam.NewDefaultClient()
 	checkErr(err)

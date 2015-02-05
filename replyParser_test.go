@@ -33,6 +33,19 @@ var validCases = []struct {
 			},
 		},
 	},
+	// result of a b32.i2p naming lookup
+	{
+		"NAMING REPLY RESULT=OK NAME=gkso46tc47hdua2kva5zahj3unmyh6ia7bv5oc2ybn2hmeowpz7a.b32.i2p VALUE=mlHQraXLpcE7A4MVeVniRHM~2yoaW1fOYVKj3ZiNTe4UPIAlIReYUMHSnZnloFWX7bh2OoEg08JBGoSQPtGkCZjqSBmfeDdMqtwbZ~~sok-jNo4e5rWnfCOHYYPVcuE8jB~7M5ioJzk8QZRqh3AjCQsKBUZgTzUfGlP12j3GtAf5C9iAGxTTB1sGE96752EKP0dzyGOs4NAujwkgm6NzVoqlkXD~fognUrQOeG~~OqChsAeqIRqj40FsJmsJREmZ4GhjFAqzLUQ4hMpKSbqMI~wtfjeNs-WKtM7pCD09uwSmYwW84wu-WxLGZiIt2GKmbPv~JrqYFNv9EM0SzUonAF8pw9GAhUn8-26kkgCXTs05Kut7NuQHghu3jHfS-frlPmAt-Uu5T4ZcLiHiFrnG2lYTtjxBFXh7W72IBncHSixhVhd4lYM7REKFj7G~5ttW9EBeL1unbNYWiQOEQjtGlmwxYt~~2EV16w339aQQ~S~69-tS6vFA1n2DgkMdg06pBQAEAAEAAA==\n",
+		Reply{
+			Topic: "NAMING",
+			Type:  "REPLY",
+			Pairs: map[string]string{
+				"RESULT": "OK",
+				"NAME":   "gkso46tc47hdua2kva5zahj3unmyh6ia7bv5oc2ybn2hmeowpz7a.b32.i2p",
+				"VALUE":  "mlHQraXLpcE7A4MVeVniRHM~2yoaW1fOYVKj3ZiNTe4UPIAlIReYUMHSnZnloFWX7bh2OoEg08JBGoSQPtGkCZjqSBmfeDdMqtwbZ~~sok-jNo4e5rWnfCOHYYPVcuE8jB~7M5ioJzk8QZRqh3AjCQsKBUZgTzUfGlP12j3GtAf5C9iAGxTTB1sGE96752EKP0dzyGOs4NAujwkgm6NzVoqlkXD~fognUrQOeG~~OqChsAeqIRqj40FsJmsJREmZ4GhjFAqzLUQ4hMpKSbqMI~wtfjeNs-WKtM7pCD09uwSmYwW84wu-WxLGZiIt2GKmbPv~JrqYFNv9EM0SzUonAF8pw9GAhUn8-26kkgCXTs05Kut7NuQHghu3jHfS-frlPmAt-Uu5T4ZcLiHiFrnG2lYTtjxBFXh7W72IBncHSixhVhd4lYM7REKFj7G~5ttW9EBeL1unbNYWiQOEQjtGlmwxYt~~2EV16w339aQQ~S~69-tS6vFA1n2DgkMdg06pBQAEAAEAAA==",
+			},
+		},
+	},
 	// session status reply
 	{
 		"SESSION STATUS RESULT=I2P_ERROR MESSAGE=TheMessageFromI2p\n",

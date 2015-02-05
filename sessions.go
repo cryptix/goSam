@@ -4,36 +4,35 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 // CreateStreamSession creates a new STREAM Session.
 // Returns the Id for the new Client.
-func (c *Client) CreateStreamSession(dest string) (id int32, newDest string, err error) {
+func (c *Client) CreateStreamSession(dest string) (int32, string, error) {
 	if dest == "" {
 		dest = "TRANSIENT"
 	}
 
-	var r *Reply
-
-	id = rand.Int31n(math.MaxInt32)
-	createCmd := fmt.Sprintf("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s", id, dest)
-	r, err = c.sendCmd(createCmd)
+	id := rand.Int31n(math.MaxInt32)
+	r, err := c.sendCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, dest, c.allOptions())
 	if err != nil {
-		return
+		return -1, "", err
 	}
 
+	// TODO: move check into sendCmd()
 	if r.Topic != "SESSION" || r.Type != "STATUS" {
-		err = fmt.Errorf("Unknown Reply: %+v\n", r)
-		return
+		return -1, "", fmt.Errorf("Unknown Reply: %+v\n", r)
 	}
 
 	result := r.Pairs["RESULT"]
 	if result != "OK" {
-		err = ReplyError{ResultKeyNotFound, r}
-		return
+		return -1, "", ReplyError{ResultKeyNotFound, r}
 	}
 
-	newDest = r.Pairs["DESTINATION"]
-
-	return
+	return id, r.Pairs["DESTINATION"], nil
 }
