@@ -4,7 +4,12 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 // CreateStreamSession creates a new STREAM Session.
 // Returns the Id for the new Client.
