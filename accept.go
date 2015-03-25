@@ -3,6 +3,8 @@ package goSam
 import (
 	"fmt"
 	"net"
+
+	"github.com/cryptix/go/debug"
 )
 
 // Accept creates a new Client and accepts a connection on it
@@ -19,8 +21,8 @@ func (c *Client) Accept() (net.Conn, error) {
 		return nil, err
 	}
 
-	if c.verbose {
-		newC.ToggleVerbose()
+	if ConnDebug {
+		newC.SamConn = debug.WrapConn(newC.SamConn)
 	}
 
 	resp, err := newC.StreamAccept(id)

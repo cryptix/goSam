@@ -26,10 +26,6 @@ func (c *Client) Dial(network, addr string) (net.Conn, error) {
 		return nil, err
 	}
 
-	if c.verbose {
-		newC.ToggleVerbose()
-	}
-
 	err = newC.StreamConnect(id, addr)
 	if err != nil {
 		return nil, err

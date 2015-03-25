@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	goSam.ConnDebug = true
+
 	// create a default sam client
 	sam, err := goSam.NewDefaultClient()
 	checkErr(err)

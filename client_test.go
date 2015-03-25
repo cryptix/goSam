@@ -9,13 +9,14 @@ var (
 func setup(t *testing.T) {
 	var err error
 
+	ConnDebug = true
+
 	// these tests expect a running SAM brige on this address
 	client, err = NewDefaultClient()
 	if err != nil {
 		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
 
-	//client.ToggleVerbose()
 }
 
 func teardown(t *testing.T) {
