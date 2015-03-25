@@ -8,6 +8,7 @@ import (
 	"github.com/cryptix/go/debug"
 )
 
+// ConnDebug if set to true, Sam connections are wrapped with logging
 var ConnDebug = false
 
 // A Client represents a single Connection to the SAM bridge
@@ -38,10 +39,8 @@ func NewClient(addr string) (*Client, error) {
 }
 
 // send the initial handshake command and check that the reply is ok
-func (c *Client) hello() (err error) {
-	var r *Reply
-
-	r, err = c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0")
+func (c *Client) hello() error {
+	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0\n")
 	if err != nil {
 		return err
 	}
@@ -58,14 +57,14 @@ func (c *Client) hello() (err error) {
 }
 
 // helper to send one command and parse the reply by sam
-func (c *Client) sendCmd(cmd string) (r *Reply, err error) {
-	if _, err = fmt.Fprintln(c.SamConn, cmd); err != nil {
-		return
+func (c *Client) sendCmd(str string, args ...interface{}) (*Reply, error) {
+	if _, err := fmt.Fprintf(c.SamConn, str, args...); err != nil {
+		return nil, err
 	}
 
 	line, err := c.rd.ReadString('\n')
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	return parseReply(line)
@@ -73,5 +72,6 @@ func (c *Client) sendCmd(cmd string) (r *Reply, err error) {
 
 // Close the underlying socket to SAM
 func (c *Client) Close() error {
+	c.rd = nil
 	return c.SamConn.Close()
 }

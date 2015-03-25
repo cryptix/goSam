@@ -2,9 +2,7 @@ package goSam
 
 import "testing"
 
-var (
-	client *Client
-)
+var client *Client
 
 func setup(t *testing.T) {
 	var err error

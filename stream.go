@@ -5,14 +5,13 @@ import (
 )
 
 // StreamConnect asks SAM for a TCP-Like connection to dest, has to be called on a new Client
-func (c *Client) StreamConnect(id int32, dest string) (err error) {
-	var r *Reply
-
-	r, err = c.sendCmd(fmt.Sprintf("STREAM CONNECT ID=%d DESTINATION=%s", id, dest))
+func (c *Client) StreamConnect(id int32, dest string) error {
+	r, err := c.sendCmd("STREAM CONNECT ID=%d DESTINATION=%s\n", id, dest)
 	if err != nil {
 		return err
 	}
 
+	// TODO: move check into sendCmd()
 	if r.Topic != "STREAM" || r.Type != "STATUS" {
 		return fmt.Errorf("Unknown Reply: %+v\n", r)
 	}
@@ -26,13 +25,13 @@ func (c *Client) StreamConnect(id int32, dest string) (err error) {
 }
 
 // StreamAccept asks SAM to accept a TCP-Like connection
-func (c *Client) StreamAccept(id int32) (r *Reply, err error) {
-
-	r, err = c.sendCmd(fmt.Sprintf("STREAM ACCEPT ID=%d SILENT=false", id))
+func (c *Client) StreamAccept(id int32) (*Reply, error) {
+	r, err := c.sendCmd("STREAM ACCEPT ID=%d SILENT=false\n", id)
 	if err != nil {
 		return nil, err
 	}
 
+	// TODO: move check into sendCmd()
 	if r.Topic != "STREAM" || r.Type != "STATUS" {
 		return nil, fmt.Errorf("Unknown Reply: %+v\n", r)
 	}

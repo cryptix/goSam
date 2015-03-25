@@ -6,34 +6,29 @@ import (
 )
 
 // Lookup askes SAM for the internal i2p address from name
-func (c *Client) Lookup(name string) (addr string, err error) {
-	var r *Reply
-
-	r, err = c.sendCmd(fmt.Sprintf("NAMING LOOKUP NAME=%s", name))
+func (c *Client) Lookup(name string) (string, error) {
+	r, err := c.sendCmd("NAMING LOOKUP NAME=%s\n", name)
 	if err != nil {
-		return
+		return "", nil
 	}
 
+	// TODO: move check into sendCmd()
 	if r.Topic != "NAMING" || r.Type != "REPLY" {
-		err = fmt.Errorf("Unknown Reply: %+v\n", r)
-		return
+		return "", fmt.Errorf("Unknown Reply: %+v\n", r)
 	}
 
 	result := r.Pairs["RESULT"]
 	if result != "OK" {
-		err = ReplyError{result, r}
-		return
+		return "", ReplyError{result, r}
 	}
 
 	if r.Pairs["NAME"] != name {
 		// somehow different on i2pd
 		if r.Pairs["NAME"] != "ME" {
-			err = fmt.Errorf("Lookup() Replyed to another name.\nWanted:%s\nGot: %+v\n", name, r)
-			return
+			return "", fmt.Errorf("Lookup() Replyed to another name.\nWanted:%s\nGot: %+v\n", name, r)
 		}
 		fmt.Fprintln(os.Stderr, "WARNING: Lookup() Replyed to another name. assuming i2pd c++ fluke")
 	}
 
-	addr = r.Pairs["VALUE"]
-	return
+	return r.Pairs["VALUE"], nil
 }

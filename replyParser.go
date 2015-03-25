@@ -36,14 +36,14 @@ type Reply struct {
 	Pairs map[string]string
 }
 
-func parseReply(line string) (r *Reply, err error) {
+func parseReply(line string) (*Reply, error) {
 	line = strings.TrimSpace(line)
 	parts := strings.Split(line, " ")
 	if len(parts) < 3 {
 		return nil, fmt.Errorf("Malformed Reply.\n%s\n", line)
 	}
 
-	r = &Reply{
+	r := &Reply{
 		Topic: parts[0],
 		Type:  parts[1],
 		Pairs: make(map[string]string, len(parts)-2),
@@ -57,5 +57,5 @@ func parseReply(line string) (r *Reply, err error) {
 		r.Pairs[kvPair[0]] = kvPair[1]
 	}
 
-	return
+	return r, nil
 }
