@@ -51,9 +51,12 @@ func parseReply(line string) (*Reply, error) {
 
 	for _, v := range parts[2:] {
 		kvPair := strings.SplitN(v, "=", 2)
-		if len(kvPair) != 2 {
-			return nil, fmt.Errorf("Malformed key-value-pair.\n%s\n", kvPair)
+		if kvPair != nil {
+			if len(kvPair) != 2 {
+				return nil, fmt.Errorf("Malformed key-value-pair.\n%s\n", kvPair)
+			}
 		}
+
 		r.Pairs[kvPair[0]] = kvPair[1]
 	}
 
