@@ -1,7 +1,6 @@
 package goSam
 
 import (
-	"context"
 	"net"
 	"strings"
 )
