@@ -26,7 +26,7 @@ type Client struct {
 
 // NewDefaultClient creates a new client, connecting to the default host:port at localhost:7656
 func NewDefaultClient() (*Client, error) {
-	return NewClient("localhost:7656")
+	return NewClient(SamHostAddress + ":" + SamHostPort)
 }
 
 // NewClient creates a new client, connecting to a specified port
