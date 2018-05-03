@@ -24,7 +24,6 @@ func optport(t *testing.T) {
 
 func TestOptionsHello(t *testing.T) {
 	ConnDebug = true
-	setup(t)
 	optaddr(t)
 	optport(t)
 }
