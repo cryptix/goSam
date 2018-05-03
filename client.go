@@ -11,6 +11,13 @@ import (
 // ConnDebug if set to true, Sam connections are wrapped with logging
 var ConnDebug = false
 
+// SamHostAddress determines the address of the SAM bridge used in the Dial
+//function
+var SamHostAddress = "127.0.0.1"
+
+// SamHostPort determines the port of the SAM bridge used in the Dial function.
+var SamHostPort = "7656"
+
 // A Client represents a single Connection to the SAM bridge
 type Client struct {
 	SamConn net.Conn
