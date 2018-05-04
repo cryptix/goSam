@@ -9,9 +9,6 @@ import (
 	"github.com/cryptix/go/debug"
 )
 
-// ConnDebug if set to true, Sam connections are wrapped with logging
-var ConnDebug = false
-
 // A Client represents a single Connection to the SAM bridge
 type Client struct {
 	addr string
@@ -19,6 +16,8 @@ type Client struct {
 
 	SamConn net.Conn
 	rd      *bufio.Reader
+
+	debug bool
 }
 
 // NewDefaultClient creates a new client, connecting to the default host:port at localhost:7656
@@ -43,6 +42,7 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	var c Client
 	c.addr = "127.0.0.1"
 	c.port = "7656"
+	c.debug = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {
 			return nil, err
@@ -52,7 +52,7 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ConnDebug {
+	if c.debug {
 		conn = debug.WrapConn(conn)
 	}
 	c.SamConn = conn

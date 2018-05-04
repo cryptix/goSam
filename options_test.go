@@ -2,8 +2,8 @@ package goSam
 
 import "testing"
 
-func optaddr(t *testing.T) {
-	client, err := NewClientFromOptions(SetAddr("127.0.0.1"))
+func TestOptionAddr(t *testing.T) {
+	client, err := NewClientFromOptions(SetAddr("127.0.0.1"), SetDebug(true))
 	if err != nil {
 		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
@@ -12,8 +12,8 @@ func optaddr(t *testing.T) {
 	}
 }
 
-func optport(t *testing.T) {
-	client, err := NewClientFromOptions(SetPort("7656"))
+func TestOptionPort(t *testing.T) {
+	client, err := NewClientFromOptions(SetPort("7656"), SetDebug(true))
 	if err != nil {
 		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
@@ -22,8 +22,12 @@ func optport(t *testing.T) {
 	}
 }
 
-func TestOptionsHello(t *testing.T) {
-	ConnDebug = true
-	optaddr(t)
-	optport(t)
+func TestOptionDebug(t *testing.T) {
+	client, err := NewClientFromOptions(SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
 }
