@@ -26,8 +26,8 @@ type Client struct {
 	outQuantity uint
 	outBackups  uint
 
-    dontPublishLease bool
-    encryptLease bool
+	dontPublishLease bool
+	encryptLease     bool
 
 	debug bool
 }
@@ -56,8 +56,8 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.inBackups = 2
 	c.outBackups = 2
 	c.debug = false
-    c.dontPublishLease = false
-    c.encryptLease = false
+	c.dontPublishLease = true
+	c.encryptLease = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {
 			return nil, err
@@ -82,7 +82,7 @@ func (c *Client) samaddr() string {
 
 // send the initial handshake command and check that the reply is ok
 func (c *Client) hello() error {
-	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0\n")
+	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0\n", c.allOptions())
 	if err != nil {
 		return err
 	}
@@ -100,7 +100,6 @@ func (c *Client) hello() error {
 
 // helper to send one command and parse the reply by sam
 func (c *Client) sendCmd(str string, args ...interface{}) (*Reply, error) {
-	args = append(args, c.allOptions())
 	if _, err := fmt.Fprintf(c.SamConn, str, args...); err != nil {
 		return nil, err
 	}

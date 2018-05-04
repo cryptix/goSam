@@ -232,28 +232,34 @@ func (c *Client) outbackups() string {
 	return "outbound.backupQuantity=" + fmt.Sprint(c.outQuantity)
 }
 
-
 func (c *Client) encryptlease() string {
-  if c.encryptLease {
-      return "i2cp.encryptLeaseSet=true"
-  }else{
-      return "i2cp.encryptLeaseSet=false"
-  }
+	if c.encryptLease {
+		return "i2cp.encryptLeaseSet=true"
+	} else {
+		return "i2cp.encryptLeaseSet=false"
+	}
 }
 
 func (c *Client) dontpublishlease() string {
-  if c.dontPublishLease {
-      return "i2cp.dontPublishLeaseSet=true"
-  }else{
-      return "i2cp.dontPublishLeaseSet=false"
-  }
+	if c.dontPublishLease {
+		return "i2cp.dontPublishLeaseSet=true"
+	} else {
+		return "i2cp.dontPublishLeaseSet=false"
+	}
 }
-
-
 
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
-	options = append(options, c.inlength(), c.outlength(), c.invariance(), c.outvariance(), c.inquantity(), c.outquantity(), c.inbackups(), c.outbackups(), c.encryptlease(), c.dontpublishlease())
+	options = append(options, c.inlength())
+	options = append(options, c.outlength())
+	options = append(options, c.invariance())
+	options = append(options, c.outvariance())
+	options = append(options, c.inquantity())
+	options = append(options, c.outquantity())
+	options = append(options, c.inbackups())
+	options = append(options, c.outbackups())
+	options = append(options, c.dontpublishlease())
+	options = append(options, c.encryptlease())
 	return options
 }
