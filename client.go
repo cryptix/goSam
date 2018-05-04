@@ -16,6 +16,9 @@ type Client struct {
 	SamConn net.Conn
 	rd      *bufio.Reader
 
+	inLength  uint
+	outLength uint
+
 	debug bool
 }
 
