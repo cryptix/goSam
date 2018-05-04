@@ -98,7 +98,6 @@ func TestOptionOutQuantity(t *testing.T) {
 	}
 }
 
-
 func TestOptionInBackups(t *testing.T) {
 	client, err := NewClientFromOptions(SetInBackups(5), SetDebug(true))
 	client.inbackups()
