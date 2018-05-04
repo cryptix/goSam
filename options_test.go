@@ -97,3 +97,26 @@ func TestOptionOutQuantity(t *testing.T) {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
 }
+
+
+func TestOptionInBackups(t *testing.T) {
+	client, err := NewClientFromOptions(SetInBackups(5), SetDebug(true))
+	client.inbackups()
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionOutBackups(t *testing.T) {
+	client, err := NewClientFromOptions(SetOutBackups(5), SetDebug(true))
+	client.outbackups()
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
