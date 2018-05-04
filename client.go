@@ -16,8 +16,15 @@ type Client struct {
 	SamConn net.Conn
 	rd      *bufio.Reader
 
-	inLength  uint
-	outLength uint
+	inLength   uint
+	inVariance uint
+	inQuantity uint
+	inBackups  uint
+
+	outLength   uint
+	outVariance uint
+	outQuantity uint
+	outBackups  uint
 
 	debug bool
 }
@@ -37,6 +44,12 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	var c Client
 	c.addr = "127.0.0.1"
 	c.port = "7656"
+	c.inLength = 3
+	c.outLength = 3
+	c.inVariance = 0
+	c.outVariance = 0
+    c.inQuantity = 4
+    c.outQuantity = 4
 	c.debug = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {
@@ -80,6 +93,7 @@ func (c *Client) hello() error {
 
 // helper to send one command and parse the reply by sam
 func (c *Client) sendCmd(str string, args ...interface{}) (*Reply, error) {
+	args = append(args, c.allOptions())
 	if _, err := fmt.Fprintf(c.SamConn, str, args...); err != nil {
 		return nil, err
 	}
