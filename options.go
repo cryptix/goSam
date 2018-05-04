@@ -37,17 +37,23 @@ func SetDebug(b bool) func(*Client) error {
 }
 
 func SetInLength(u uint) func(*Client) error {
-    return func(c *Client) error{
-        if u < 7 {
-            c.inLength = u
-        }
-    }
+	return func(c *Client) error {
+		if u < 7 {
+			c.inLength = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid inbound tunnel length")
+		}
+	}
 }
 
 func SetOutLength(u uint) func(*Client) error {
-    return func(c *Client) error{
-        if u < 7 {
-            c.outLength = u
-        }
-    }
+	return func(c *Client) error {
+		if u < 7 {
+			c.outLength = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid outbound tunnel length")
+		}
+	}
 }
