@@ -14,9 +14,6 @@ type Client struct {
 	addr string
 	port string
 
-	SamConn net.Conn
-	rd      *bufio.Reader
-
 	inLength  uint
 	outLength uint
 
