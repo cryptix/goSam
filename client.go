@@ -50,6 +50,8 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.outVariance = 0
     c.inQuantity = 4
     c.outQuantity = 4
+    c.inBackups = 2
+    c.outBackups = 2
 	c.debug = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {

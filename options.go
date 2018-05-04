@@ -113,7 +113,7 @@ func SetOutLength(u uint) func(*Client) error {
 			}
 			return nil
 		} else {
-			return fmt.Errorf("Invalid outbound tunnel length")
+			return fmt.Errorf("Invalid outbound tunnel variance")
 		}
 	}
 }
@@ -152,7 +152,7 @@ func SetInQuantity(u uint) func(*Client) error {
 			c.inQuantity = u
 			return nil
 		} else {
-			return fmt.Errorf("Invalid inbound tunnel length")
+			return fmt.Errorf("Invalid inbound tunnel quantity")
 		}
 	}
 }
@@ -163,7 +163,29 @@ func SetOutQuantity(u uint) func(*Client) error {
 			c.outQuantity = u
 			return nil
 		} else {
-			return fmt.Errorf("Invalid outbound tunnel length")
+			return fmt.Errorf("Invalid outbound tunnel quantity")
+		}
+	}
+}
+
+func SetInBackups(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 6 {
+			c.inBackups = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid inbound tunnel backup quantity")
+		}
+	}
+}
+
+func SetOutBackups(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 6 {
+			c.outBackups = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid outbound tunnel backup quantity")
 		}
 	}
 }
@@ -198,9 +220,19 @@ func (c *Client) outquantity() string {
 	return "outbound.quantity=" + fmt.Sprint(c.outQuantity)
 }
 
+//return the inbound tunnel quantity as a string.
+func (c *Client) inbackups() string {
+	return "inbound.backupQuantity=" + fmt.Sprint(c.inQuantity)
+}
+
+//return the outbound tunnel quantity as a string.
+func (c *Client) outbackups() string {
+	return "outbound.backupQuantity=" + fmt.Sprint(c.outQuantity)
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
-	options = append(options, c.inlength(), c.outlength(), c.invariance(), c.outvariance(), c.inquantity(), c.outquantity())
+	options = append(options, c.inlength(), c.outlength(), c.invariance(), c.outvariance(), c.inquantity(), c.outquantity(), c.inbackups(), c.outbackups())
 	return options
 }
