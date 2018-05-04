@@ -18,7 +18,7 @@ func SetPort(s string) func(*Client) error {
 	return func(c *Client) error {
 		port, err := strconv.Atoi(s)
 		if err != nil {
-			return fmt.Errorf("Invalid port")
+			return fmt.Errorf("Invalid port; non-number")
 		}
 		if port < 65536 && port > -1 {
 			c.port = s
