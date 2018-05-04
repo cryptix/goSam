@@ -130,7 +130,6 @@ func TestOptionEncryptLease(t *testing.T) {
 	}
 }
 
-
 func TestOptionUnpublishedLease(t *testing.T) {
 	client, err := NewClientFromOptions(SetUnpublished(true), SetDebug(true))
 	if err != nil {
