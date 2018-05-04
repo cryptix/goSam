@@ -40,9 +40,6 @@ func SetInLength(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 7 {
 			c.inLength = u
-			if c.inLength < c.inVariance {
-				return fmt.Errorf("Inbound variance > Inbound length")
-			}
 			return nil
 		} else {
 			return fmt.Errorf("Invalid inbound tunnel length")
@@ -54,9 +51,6 @@ func SetOutLength(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 7 {
 			c.outLength = u
-			if c.outLength < c.outVariance {
-				return fmt.Errorf("Outbound variance > Outbound length")
-			}
 			return nil
 		} else {
 			return fmt.Errorf("Invalid outbound tunnel length")
@@ -64,13 +58,10 @@ func SetOutLength(u uint) func(*Client) error {
 	}
 }
 
-func SetInVariance(u uint) func(*Client) error {
+func SetInVariance(i int) func(*Client) error {
 	return func(c *Client) error {
-		if u <= 3 {
-			c.inVariance = u
-			if c.inLength < c.inVariance {
-				return fmt.Errorf("Inbound variance > Inbound length")
-			}
+		if i < 7 && i > -7 {
+			c.inVariance = i
 			return nil
 		} else {
 			return fmt.Errorf("Invalid inbound tunnel length")
@@ -78,13 +69,10 @@ func SetInVariance(u uint) func(*Client) error {
 	}
 }
 
-func SetOutVariance(u uint) func(*Client) error {
+func SetOutVariance(i int) func(*Client) error {
 	return func(c *Client) error {
-		if u <= 3 {
-			c.outVariance = u
-			if c.outLength < c.outVariance {
-				return fmt.Errorf("Outbound variance > Outbound length")
-			}
+		if i < 7 && i > -7 {
+			c.outVariance = i
 			return nil
 		} else {
 			return fmt.Errorf("Invalid outbound tunnel variance")
@@ -94,7 +82,7 @@ func SetOutVariance(u uint) func(*Client) error {
 
 func SetInQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
-		if u < 7 {
+		if u < 16 {
 			c.inQuantity = u
 			return nil
 		} else {
@@ -105,7 +93,7 @@ func SetInQuantity(u uint) func(*Client) error {
 
 func SetOutQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
-		if u < 7 {
+		if u < 16 {
 			c.outQuantity = u
 			return nil
 		} else {

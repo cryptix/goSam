@@ -18,12 +18,12 @@ type Client struct {
 	rd      *bufio.Reader
 
 	inLength   uint
-	inVariance uint
+	inVariance int
 	inQuantity uint
 	inBackups  uint
 
 	outLength   uint
-	outVariance uint
+	outVariance int
 	outQuantity uint
 	outBackups  uint
 
