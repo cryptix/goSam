@@ -35,3 +35,19 @@ func SetDebug(b bool) func(*Client) error {
 		return nil
 	}
 }
+
+func SetInLength(u uint) func(*Client) error {
+    return func(c *Client) error{
+        if u < 7 {
+            c.inLength = u
+        }
+    }
+}
+
+func SetOutLength(u uint) func(*Client) error {
+    return func(c *Client) error{
+        if u < 7 {
+            c.outLength = u
+        }
+    }
+}
