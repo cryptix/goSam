@@ -27,6 +27,8 @@ type Client struct {
 	outQuantity uint
 	outBackups  uint
 
+    encryptLease bool
+
 	debug bool
 }
 
@@ -61,6 +63,7 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.inBackups = 2
 	c.outBackups = 2
 	c.debug = false
+    c.encryptLease = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {
 			return nil, err

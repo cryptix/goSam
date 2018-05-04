@@ -124,6 +124,13 @@ func SetOutBackups(u uint) func(*Client) error {
 	}
 }
 
+func SetEncrypt(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.encryptLease = b
+		return nil
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return "inbound.length=" + fmt.Sprint(c.inLength)
@@ -164,9 +171,19 @@ func (c *Client) outbackups() string {
 	return "outbound.backupQuantity=" + fmt.Sprint(c.outQuantity)
 }
 
+
+func (c *Client) encryptlease() string {
+  if c.encryptLease {
+      return "i2cp.encryptLeaseSet=true"
+  }else{
+      return "i2cp.encryptLeaseSet=false"
+  }
+}
+
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
-	options = append(options, c.inlength(), c.outlength(), c.invariance(), c.outvariance(), c.inquantity(), c.outquantity(), c.inbackups(), c.outbackups())
+	options = append(options, c.inlength(), c.outlength(), c.invariance(), c.outvariance(), c.inquantity(), c.outquantity(), c.inbackups(), c.outbackups(), c.encryptlease())
 	return options
 }
