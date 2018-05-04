@@ -1,7 +1,7 @@
 package goSam
 
 import (
-    "fmt"
+	"fmt"
 	"strconv"
 )
 
@@ -18,13 +18,20 @@ func SetPort(s string) func(*Client) error {
 	return func(c *Client) error {
 		port, err := strconv.Atoi(s)
 		if err != nil {
-			return err
+			return fmt.Errorf("Invalid port")
 		}
 		if port < 65536 && port > -1 {
 			c.port = s
-            return nil
+			return nil
 		} else {
 			return fmt.Errorf("Invalid port")
 		}
+	}
+}
+
+func SetDebug(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.debug = b
+		return nil
 	}
 }
