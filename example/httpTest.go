@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	".."
+	"github.com/cryptix/goSam"
 )
 
 func main() {
