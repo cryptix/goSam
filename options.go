@@ -15,13 +15,9 @@ func SetAddr(s ...interface{}) func(*Client) error {
 			case string:
 				split := strings.SplitN(v, ":", 2)
 				if len(split) == 2 {
-					if i, err := strconv.Atoi(split[1]); err == nil {
-                        if i < 65536 {
-    						c.addr = split[0]
-                            c.port = split[1]
-                        }else{
-                            return fmt.Errorf("Invalid port")
-                        }
+					if _, err := strconv.Atoi(split[1]); err == nil {
+						c.addr = split[0]
+						c.port = split[1]
 					} else {
 						return fmt.Errorf("Invalid port; non-number")
 					}
@@ -34,20 +30,12 @@ func SetAddr(s ...interface{}) func(*Client) error {
 		} else if len(s) == 2 {
 			switch v := s[1].(type) {
 			case int:
-                if v < 65536 {
-                    c.addr = s[0].(string)
-                    c.port = strconv.Itoa(v)
-                }else{
-                    return fmt.Errorf("Invalid port")
-                }
+				c.addr = s[0].(string)
+				c.port = strconv.Itoa(v)
 			case string:
-				if i, err := strconv.Atoi(s[1].(string)); err == nil {
-                    if i < 65536 {
-                        c.addr = s[0].(string)
-                        c.port = s[1].(string)
-                    }else{
-                        return fmt.Errorf("Invalid port")
-                    }
+				if _, err := strconv.Atoi(s[1].(string)); err == nil {
+					c.addr = s[0].(string)
+					c.port = s[1].(string)
 				} else {
 					return fmt.Errorf("Invalid port; non-number")
 				}
