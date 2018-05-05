@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	"strings"
 
 	"github.com/cryptix/go/debug"
 )
@@ -40,14 +39,7 @@ func NewDefaultClient() (*Client, error) {
 
 // NewClient creates a new client, connecting to a specified port
 func NewClient(addr string) (*Client, error) {
-	hostport := strings.SplitN(addr, ":", 2)
-	if len(hostport) == 2 {
-		return NewClientFromOptions(SetAddr(hostport[0]), SetPort(hostport[1]))
-	} else if len(hostport) == 1 {
-		return NewClientFromOptions(SetAddr("localhost"), SetPort(hostport[0]))
-	} else {
-		return NewClientFromOptions(SetAddr("localhost"), SetPort("7656"))
-	}
+	return NewClientFromOptions(SetAddr(addr))
 }
 
 // NewClientFromOptionss creates a new client, connecting to a specified port
@@ -85,7 +77,7 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 
 //return the combined addr:port of the SAM bridge
 func (c *Client) samaddr() string {
-	return c.addr + ":" + c.port
+	return fmt.Sprintf("%s:%s", c.addr, c.port)
 }
 
 // send the initial handshake command and check that the reply is ok

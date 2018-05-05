@@ -3,11 +3,53 @@ package goSam
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type Option func(*Client) error
 
-func SetAddr(s string) func(*Client) error {
+func SetAddr(s ...interface{}) func(*Client) error {
+	return func(c *Client) error {
+		if len(s) == 1 {
+			switch v := s[0].(type) {
+			case string:
+				split := strings.SplitN(v, ":", 2)
+				if len(split) == 2 {
+					if _, err := strconv.Atoi(split[1]); err == nil {
+						c.addr = split[0]
+						c.port = split[1]
+					} else {
+						return fmt.Errorf("Invalid port; non-number")
+					}
+				} else {
+					return fmt.Errorf("Invalid address; use host:port", split)
+				}
+			default:
+				return fmt.Errorf("Invalid address; address must be string")
+			}
+		} else if len(s) == 2 {
+			switch v := s[1].(type) {
+			case int:
+				c.addr = s[0].(string)
+				c.port = strconv.Itoa(v)
+			case string:
+				if _, err := strconv.Atoi(s[1].(string)); err == nil {
+					c.addr = s[0].(string)
+					c.port = s[1].(string)
+				} else {
+					return fmt.Errorf("Invalid port; non-number")
+				}
+			default:
+				return fmt.Errorf("Invalid port; non-number")
+			}
+		} else {
+			return fmt.Errorf("Invalid address")
+		}
+		return nil
+	}
+}
+
+func SetHost(s string) func(*Client) error {
 	return func(c *Client) error {
 		c.addr = s
 		return nil
