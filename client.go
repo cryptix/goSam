@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	"strings"
 
 	"github.com/cryptix/go/debug"
 )
@@ -27,14 +26,7 @@ func NewDefaultClient() (*Client, error) {
 
 // NewClient creates a new client, connecting to a specified port
 func NewClient(addr string) (*Client, error) {
-	hostport := strings.SplitN(addr, ":", 2)
-	if len(hostport) == 2 {
-		return NewClientFromOptions(SetAddr(hostport[0]), SetPort(hostport[1]))
-	} else if len(hostport) == 1 {
-		return NewClientFromOptions(SetAddr("localhost"), SetPort(hostport[0]))
-	} else {
-		return NewClientFromOptions(SetAddr("localhost"), SetPort("7656"))
-	}
+	return NewClientFromOptions(SetAddr(addr))
 }
 
 // NewClientFromOptionss creates a new client, connecting to a specified port
