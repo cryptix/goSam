@@ -54,7 +54,7 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 
 //return the combined addr:port of the SAM bridge
 func (c *Client) samaddr() string {
-	return c.addr + ":" + c.port
+	return fmt.Sprintf("%s:%s", c.addr, c.port)
 }
 
 // send the initial handshake command and check that the reply is ok
