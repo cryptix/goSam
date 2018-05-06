@@ -170,3 +170,23 @@ func TestOptionOutBackups(t *testing.T) {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
 }
+
+func TestOptionEncryptLease(t *testing.T) {
+	client, err := NewClientFromOptions(SetEncrypt(true), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionUnpublishedLease(t *testing.T) {
+	client, err := NewClientFromOptions(SetUnpublished(true), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
