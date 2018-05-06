@@ -8,13 +8,15 @@ import (
 	"github.com/cryptix/go/debug"
 )
 
-// ConnDebug if set to true, Sam connections are wrapped with logging
-var ConnDebug = false
-
 // A Client represents a single Connection to the SAM bridge
 type Client struct {
+	addr string
+	port string
+
 	SamConn net.Conn
 	rd      *bufio.Reader
+
+	debug bool
 }
 
 // NewDefaultClient creates a new client, connecting to the default host:port at localhost:7656
@@ -24,18 +26,35 @@ func NewDefaultClient() (*Client, error) {
 
 // NewClient creates a new client, connecting to a specified port
 func NewClient(addr string) (*Client, error) {
-	conn, err := net.Dial("tcp", addr)
+	return NewClientFromOptions(SetAddr(addr))
+}
+
+// NewClientFromOptionss creates a new client, connecting to a specified port
+func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
+	var c Client
+	c.addr = "127.0.0.1"
+	c.port = "7656"
+	c.debug = false
+	for _, o := range opts {
+		if err := o(&c); err != nil {
+			return nil, err
+		}
+	}
+	conn, err := net.Dial("tcp", c.samaddr())
 	if err != nil {
 		return nil, err
 	}
-	if ConnDebug {
+	if c.debug {
 		conn = debug.WrapConn(conn)
 	}
-	c := &Client{
-		SamConn: conn,
-		rd:      bufio.NewReader(conn),
-	}
-	return c, c.hello()
+	c.SamConn = conn
+	c.rd = bufio.NewReader(conn)
+	return &c, c.hello()
+}
+
+//return the combined addr:port of the SAM bridge
+func (c *Client) samaddr() string {
+	return fmt.Sprintf("%s:%s", c.addr, c.port)
 }
 
 // send the initial handshake command and check that the reply is ok

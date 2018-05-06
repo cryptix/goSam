@@ -21,7 +21,7 @@ func (c *Client) Accept() (net.Conn, error) {
 		return nil, err
 	}
 
-	if ConnDebug {
+	if c.debug {
 		newC.SamConn = debug.WrapConn(newC.SamConn)
 	}
 

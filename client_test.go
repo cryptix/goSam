@@ -7,10 +7,8 @@ var client *Client
 func setup(t *testing.T) {
 	var err error
 
-	ConnDebug = true
-
 	// these tests expect a running SAM brige on this address
-	client, err = NewDefaultClient()
+	client, err = NewClientFromOptions(SetDebug(true))
 	if err != nil {
 		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
