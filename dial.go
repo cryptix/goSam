@@ -21,7 +21,7 @@ func (c *Client) Dial(network, addr string) (net.Conn, error) {
 		return nil, err
 	}
 
-	newC, err := NewDefaultClient()
+	newC, err := NewClient(c.samaddr())
 	if err != nil {
 		return nil, err
 	}

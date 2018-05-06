@@ -6,11 +6,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/cryptix/goSam"
+    "github.com/cryptix/goSam"
 )
 
 func main() {
-	goSam.ConnDebug = true
 
 	// create a default sam client
 	sam, err := goSam.NewDefaultClient()
