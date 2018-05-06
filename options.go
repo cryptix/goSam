@@ -146,6 +146,28 @@ func SetOutVariance(i int) func(*Client) error {
 	}
 }
 
+func SetInQuantity(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 16 {
+			c.inQuantity = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid inbound tunnel quantity")
+		}
+	}
+}
+
+func SetOutQuantity(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 16 {
+			c.outQuantity = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid outbound tunnel quantity")
+		}
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return "inbound.length=" + fmt.Sprint(c.inLength)
@@ -166,6 +188,16 @@ func (c *Client) outvariance() string {
 	return "outbound.lengthVariance=" + fmt.Sprint(c.outVariance)
 }
 
+//return the inbound tunnel quantity as a string.
+func (c *Client) inquantity() string {
+	return "inbound.quantity=" + fmt.Sprint(c.inQuantity)
+}
+
+//return the outbound tunnel quantity as a string.
+func (c *Client) outquantity() string {
+	return "outbound.quantity=" + fmt.Sprint(c.outQuantity)
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
@@ -173,5 +205,7 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outlength())
     options = append(options, c.invariance())
 	options = append(options, c.outvariance())
+    options = append(options, c.inquantity())
+	options = append(options, c.outquantity())
 	return options
 }

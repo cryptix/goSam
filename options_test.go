@@ -125,3 +125,26 @@ func TestOptionOutVariance(t *testing.T) {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
 }
+
+
+func TestOptionInQuantity(t *testing.T) {
+	client, err := NewClientFromOptions(SetInQuantity(6), SetDebug(true))
+	client.inquantity()
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionOutQuantity(t *testing.T) {
+	client, err := NewClientFromOptions(SetOutQuantity(6), SetDebug(true))
+	client.outquantity()
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
