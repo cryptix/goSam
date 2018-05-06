@@ -168,6 +168,28 @@ func SetOutQuantity(u uint) func(*Client) error {
 	}
 }
 
+func SetInBackups(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 6 {
+			c.inBackups = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid inbound tunnel backup quantity")
+		}
+	}
+}
+
+func SetOutBackups(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 6 {
+			c.outBackups = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid outbound tunnel backup quantity")
+		}
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return "inbound.length=" + fmt.Sprint(c.inLength)
@@ -198,6 +220,16 @@ func (c *Client) outquantity() string {
 	return "outbound.quantity=" + fmt.Sprint(c.outQuantity)
 }
 
+//return the inbound tunnel quantity as a string.
+func (c *Client) inbackups() string {
+	return "inbound.backupQuantity=" + fmt.Sprint(c.inQuantity)
+}
+
+//return the outbound tunnel quantity as a string.
+func (c *Client) outbackups() string {
+	return "outbound.backupQuantity=" + fmt.Sprint(c.outQuantity)
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
@@ -207,5 +239,7 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outvariance())
     options = append(options, c.inquantity())
 	options = append(options, c.outquantity())
+    options = append(options, c.inbackups())
+	options = append(options, c.outbackups())
 	return options
 }
