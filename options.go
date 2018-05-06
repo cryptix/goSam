@@ -56,16 +56,28 @@ func SetHost(s string) func(*Client) error {
 	}
 }
 
-func SetPort(s string) func(*Client) error {
+func SetPort(s interface{}) func(*Client) error {
 	return func(c *Client) error {
-		port, err := strconv.Atoi(s)
-		if err != nil {
-			return fmt.Errorf("Invalid port; non-number")
-		}
-		if port < 65536 && port > -1 {
-			c.port = s
-			return nil
-		} else {
+		switch v := s.(type) {
+		case string:
+			port, err := strconv.Atoi(v)
+			if err != nil {
+				return fmt.Errorf("Invalid port; non-number")
+			}
+			if port < 65536 && port > -1 {
+				c.port = v
+				return nil
+			} else {
+				return fmt.Errorf("Invalid port")
+			}
+		case int:
+			if v < 65536 && v > -1 {
+				c.port = strconv.Itoa(v)
+				return nil
+			} else {
+				return fmt.Errorf("Invalid port")
+			}
+		default:
 			return fmt.Errorf("Invalid port")
 		}
 	}
