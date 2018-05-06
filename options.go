@@ -107,7 +107,7 @@ func SetOutLength(u uint) func(*Client) error {
 			c.outLength = u
 			return nil
 		} else {
-			return fmt.Errorf("Invalid outbound tunnel variance")
+			return fmt.Errorf("Invalid outbound tunnel length")
 		}
 	}
 }
@@ -129,7 +129,7 @@ func SetOutVariance(i int) func(*Client) error {
 			c.outVariance = i
 			return nil
 		} else {
-			return fmt.Errorf("Invalid outbound tunnel length")
+			return fmt.Errorf("Invalid outbound tunnel variance")
 		}
 	}
 }
