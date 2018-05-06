@@ -101,3 +101,44 @@ func SetDebug(b bool) func(*Client) error {
 		return nil
 	}
 }
+
+func SetInLength(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 7 {
+			c.inLength = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid inbound tunnel length")
+		}
+	}
+}
+
+func SetOutLength(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 7 {
+			c.outLength = u
+			return nil
+		} else {
+			return fmt.Errorf("Invalid outbound tunnel length")
+		}
+	}
+}
+
+//return the inbound length as a string.
+func (c *Client) inlength() string {
+	return "inbound.length=" + fmt.Sprint(c.inLength)
+}
+
+//return the outbound length as a string.
+func (c *Client) outlength() string {
+	return "outbound.length=" + fmt.Sprint(c.outLength)
+}
+
+//return all options as string array ready for passing to sendcmd
+func (c *Client) allOptions() []string {
+	var options []string
+	options = append(options, c.inlength())
+	options = append(options, c.outlength())
+	return options
+}
+

@@ -81,3 +81,25 @@ func TestOptionDebug(t *testing.T) {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
 }
+
+func TestOptionInLength(t *testing.T) {
+	client, err := NewClientFromOptions(SetInLength(3), SetDebug(true))
+	client.inlength()
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionOutLength(t *testing.T) {
+	client, err := NewClientFromOptions(SetInLength(3), SetDebug(true))
+	client.outlength()
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
