@@ -16,17 +16,17 @@ type Client struct {
 	SamConn net.Conn
 	rd      *bufio.Reader
 
-	inLength uint
-    inVariance int
-    inQuantity uint
-    inBackups uint
+	inLength   uint
+	inVariance int
+	inQuantity uint
+	inBackups  uint
 
-	outLength uint
-    outVariance int
-    outQuantity uint
-    outBackups uint
+	outLength   uint
+	outVariance int
+	outQuantity uint
+	outBackups  uint
 
-    dontPublishLease bool
+	dontPublishLease bool
 	encryptLease     bool
 
 	debug bool
@@ -47,15 +47,15 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	var c Client
 	c.addr = "127.0.0.1"
 	c.port = "7656"
-    c.inLength = 3
-    c.inVariance = 0
-    c.inQuantity = 4
-    c.inBackups = 2
+	c.inLength = 3
+	c.inVariance = 0
+	c.inQuantity = 4
+	c.inBackups = 2
 	c.outLength = 3
 	c.outVariance = 0
-    c.outQuantity = 4
-    c.outBackups = 2
-    c.dontPublishLease = true
+	c.outQuantity = 4
+	c.outBackups = 2
+	c.dontPublishLease = true
 	c.encryptLease = false
 	c.debug = false
 	for _, o := range opts {

@@ -126,7 +126,6 @@ func TestOptionOutVariance(t *testing.T) {
 	}
 }
 
-
 func TestOptionInQuantity(t *testing.T) {
 	client, err := NewClientFromOptions(SetInQuantity(6), SetDebug(true))
 	client.inquantity()
