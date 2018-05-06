@@ -124,6 +124,28 @@ func SetOutLength(u uint) func(*Client) error {
 	}
 }
 
+func SetInVariance(i int) func(*Client) error {
+	return func(c *Client) error {
+		if i < 7 && i > -7 {
+			c.inVariance = i
+			return nil
+		} else {
+			return fmt.Errorf("Invalid inbound tunnel length")
+		}
+	}
+}
+
+func SetOutVariance(i int) func(*Client) error {
+	return func(c *Client) error {
+		if i < 7 && i > -7 {
+			c.outVariance = i
+			return nil
+		} else {
+			return fmt.Errorf("Invalid outbound tunnel variance")
+		}
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return "inbound.length=" + fmt.Sprint(c.inLength)
@@ -134,10 +156,22 @@ func (c *Client) outlength() string {
 	return "outbound.length=" + fmt.Sprint(c.outLength)
 }
 
+//return the inbound length variance as a string.
+func (c *Client) invariance() string {
+	return "inbound.lengthVariance=" + fmt.Sprint(c.inVariance)
+}
+
+//return the outbound length variance as a string.
+func (c *Client) outvariance() string {
+	return "outbound.lengthVariance=" + fmt.Sprint(c.outVariance)
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
 	options = append(options, c.inlength())
 	options = append(options, c.outlength())
+    options = append(options, c.invariance())
+	options = append(options, c.outvariance())
 	return options
 }

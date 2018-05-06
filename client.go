@@ -41,7 +41,9 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.addr = "127.0.0.1"
 	c.port = "7656"
     c.inLength = 3
+    c.inVariance = 0
 	c.outLength = 3
+	c.outVariance = 0
 	c.debug = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {
