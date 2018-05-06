@@ -19,10 +19,13 @@ type Client struct {
 	inLength uint
     inVariance int
     inQuantity uint
+    inBackups uint
 
 	outLength uint
     outVariance int
     outQuantity uint
+    outBackups uint
+
 
 	debug bool
 }
@@ -45,9 +48,11 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
     c.inLength = 3
     c.inVariance = 0
     c.inQuantity = 4
+    c.inBackups = 2
 	c.outLength = 3
 	c.outVariance = 0
     c.outQuantity = 4
+    c.outBackups = 2
 	c.debug = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {
