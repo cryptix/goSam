@@ -82,7 +82,7 @@ func (c *Client) samaddr() string {
 
 // send the initial handshake command and check that the reply is ok
 func (c *Client) hello() error {
-	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0\n")
+	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.0\n", c.allOptions())
 	if err != nil {
 		return err
 	}
