@@ -265,13 +265,13 @@ func (c *Client) allOptions() []string {
 	var options []string
 	options = append(options, c.inlength())
 	options = append(options, c.outlength())
-    options = append(options, c.invariance())
+	options = append(options, c.invariance())
 	options = append(options, c.outvariance())
-    options = append(options, c.inquantity())
+	options = append(options, c.inquantity())
 	options = append(options, c.outquantity())
-    options = append(options, c.inbackups())
+	options = append(options, c.inbackups())
 	options = append(options, c.outbackups())
-    options = append(options, c.dontpublishlease())
+	options = append(options, c.dontpublishlease())
 	options = append(options, c.encryptlease())
 	return options
 }
