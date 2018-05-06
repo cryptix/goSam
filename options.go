@@ -190,6 +190,20 @@ func SetOutBackups(u uint) func(*Client) error {
 	}
 }
 
+func SetUnpublished(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.dontPublishLease = b
+		return nil
+	}
+}
+
+func SetEncrypt(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.encryptLease = b
+		return nil
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return "inbound.length=" + fmt.Sprint(c.inLength)
@@ -230,6 +244,22 @@ func (c *Client) outbackups() string {
 	return "outbound.backupQuantity=" + fmt.Sprint(c.outQuantity)
 }
 
+func (c *Client) encryptlease() string {
+	if c.encryptLease {
+		return "i2cp.encryptLeaseSet=true"
+	} else {
+		return "i2cp.encryptLeaseSet=false"
+	}
+}
+
+func (c *Client) dontpublishlease() string {
+	if c.dontPublishLease {
+		return "i2cp.dontPublishLeaseSet=true"
+	} else {
+		return "i2cp.dontPublishLeaseSet=false"
+	}
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
@@ -241,5 +271,7 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outquantity())
     options = append(options, c.inbackups())
 	options = append(options, c.outbackups())
+    options = append(options, c.dontpublishlease())
+	options = append(options, c.encryptlease())
 	return options
 }
