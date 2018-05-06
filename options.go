@@ -141,4 +141,3 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outlength())
 	return options
 }
-
