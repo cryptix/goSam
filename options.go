@@ -148,7 +148,7 @@ func SetOutVariance(i int) func(*Client) error {
 
 func SetInQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
-		if u < 16 {
+		if u <= 16 {
 			c.inQuantity = u
 			return nil
 		} else {
@@ -159,7 +159,7 @@ func SetInQuantity(u uint) func(*Client) error {
 
 func SetOutQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
-		if u < 16 {
+		if u <= 16 {
 			c.outQuantity = u
 			return nil
 		} else {
