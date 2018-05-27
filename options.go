@@ -8,6 +8,8 @@ import (
 
 type Option func(*Client) error
 
+
+//SetAddr sets a clients's address in the form host:port or host, port
 func SetAddr(s ...interface{}) func(*Client) error {
 	return func(c *Client) error {
 		if len(s) == 1 {
@@ -61,6 +63,8 @@ func SetAddr(s ...interface{}) func(*Client) error {
 	}
 }
 
+
+//SetHost sets the host of the client's SAM bridge
 func SetHost(s string) func(*Client) error {
 	return func(c *Client) error {
 		c.addr = s
@@ -68,6 +72,7 @@ func SetHost(s string) func(*Client) error {
 	}
 }
 
+//SetPort sets the port of the client's SAM bridge
 func SetPort(s interface{}) func(*Client) error {
 	return func(c *Client) error {
 		switch v := s.(type) {
@@ -95,6 +100,7 @@ func SetPort(s interface{}) func(*Client) error {
 	}
 }
 
+//SetDebug enables debugging messages
 func SetDebug(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.debug = b
@@ -102,6 +108,7 @@ func SetDebug(b bool) func(*Client) error {
 	}
 }
 
+//SetInLength sets the number of hops inbound
 func SetInLength(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 7 {
@@ -113,6 +120,7 @@ func SetInLength(u uint) func(*Client) error {
 	}
 }
 
+//SetOutLength sets the number of hops outbound
 func SetOutLength(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 7 {
@@ -124,6 +132,7 @@ func SetOutLength(u uint) func(*Client) error {
 	}
 }
 
+//SetInVariance sets the variance of a number of hops inbound
 func SetInVariance(i int) func(*Client) error {
 	return func(c *Client) error {
 		if i < 7 && i > -7 {
@@ -135,6 +144,7 @@ func SetInVariance(i int) func(*Client) error {
 	}
 }
 
+//SetOutVariance sets the variance of a number of hops outbound
 func SetOutVariance(i int) func(*Client) error {
 	return func(c *Client) error {
 		if i < 7 && i > -7 {
@@ -146,6 +156,7 @@ func SetOutVariance(i int) func(*Client) error {
 	}
 }
 
+//SetInQuantity sets the inbound tunnel quantity
 func SetInQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u <= 16 {
@@ -157,6 +168,7 @@ func SetInQuantity(u uint) func(*Client) error {
 	}
 }
 
+//SetOutQuantity sets the outbound tunnel quantity
 func SetOutQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u <= 16 {
@@ -168,6 +180,8 @@ func SetOutQuantity(u uint) func(*Client) error {
 	}
 }
 
+
+//SetInBackups sets the inbound tunnel backups
 func SetInBackups(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 6 {
@@ -179,6 +193,7 @@ func SetInBackups(u uint) func(*Client) error {
 	}
 }
 
+//SetOutBackups sets the inbound tunnel backups
 func SetOutBackups(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 6 {
@@ -190,6 +205,8 @@ func SetOutBackups(u uint) func(*Client) error {
 	}
 }
 
+
+//SetUnpublish tells the router to not publish the client leaseset
 func SetUnpublished(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.dontPublishLease = b
@@ -197,6 +214,7 @@ func SetUnpublished(b bool) func(*Client) error {
 	}
 }
 
+//SetEncrypt tells the router to use an encrypted leaseset
 func SetEncrypt(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.encryptLease = b
