@@ -8,7 +8,6 @@ import (
 
 type Option func(*Client) error
 
-
 //SetAddr sets a clients's address in the form host:port or host, port
 func SetAddr(s ...interface{}) func(*Client) error {
 	return func(c *Client) error {
@@ -62,7 +61,6 @@ func SetAddr(s ...interface{}) func(*Client) error {
 		return nil
 	}
 }
-
 
 //SetHost sets the host of the client's SAM bridge
 func SetHost(s string) func(*Client) error {
@@ -180,7 +178,6 @@ func SetOutQuantity(u uint) func(*Client) error {
 	}
 }
 
-
 //SetInBackups sets the inbound tunnel backups
 func SetInBackups(u uint) func(*Client) error {
 	return func(c *Client) error {
@@ -204,7 +201,6 @@ func SetOutBackups(u uint) func(*Client) error {
 		}
 	}
 }
-
 
 //SetUnpublish tells the router to not publish the client leaseset
 func SetUnpublished(b bool) func(*Client) error {
