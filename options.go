@@ -38,18 +38,16 @@ func SetAddr(s ...interface{}) func(*Client) error {
 					c.addr = s[0].(string)
 					c.port = strconv.Itoa(v)
 					return nil
-				} else {
-					return fmt.Errorf("Invalid port")
 				}
+				return fmt.Errorf("Invalid port")
 			case string:
 				if i, err := strconv.Atoi(s[1].(string)); err == nil {
 					if i < 65536 {
 						c.addr = s[0].(string)
 						c.port = s[1].(string)
 						return nil
-					} else {
-						return fmt.Errorf("Invalid port")
 					}
+					return fmt.Errorf("Invalid port")
 				}
 				return fmt.Errorf("Invalid port; non-number")
 			default:
@@ -191,7 +189,7 @@ func SetOutBackups(u uint) func(*Client) error {
 	}
 }
 
-//SetUnpublish tells the router to not publish the client leaseset
+//SetUnpublished tells the router to not publish the client leaseset
 func SetUnpublished(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.dontPublishLease = b
@@ -250,17 +248,15 @@ func (c *Client) outbackups() string {
 func (c *Client) encryptlease() string {
 	if c.encryptLease {
 		return "i2cp.encryptLeaseSet=true"
-	} else {
-		return "i2cp.encryptLeaseSet=false"
 	}
+	return "i2cp.encryptLeaseSet=false"
 }
 
 func (c *Client) dontpublishlease() string {
 	if c.dontPublishLease {
 		return "i2cp.dontPublishLeaseSet=true"
-	} else {
-		return "i2cp.dontPublishLeaseSet=false"
 	}
+	return "i2cp.dontPublishLeaseSet=false"
 }
 
 //return all options as string array ready for passing to sendcmd
