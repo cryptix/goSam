@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+//Option is a client Option
 type Option func(*Client) error
 
 //SetAddr sets a clients's address in the form host:port or host, port
@@ -20,15 +21,13 @@ func SetAddr(s ...interface{}) func(*Client) error {
 						if i < 65536 {
 							c.addr = split[0]
 							c.port = split[1]
-						} else {
-							return fmt.Errorf("Invalid port")
+							return nil
 						}
-					} else {
-						return fmt.Errorf("Invalid port; non-number")
+						return fmt.Errorf("Invalid port")
 					}
-				} else {
-					return fmt.Errorf("Invalid address; use host:port", split)
+					return fmt.Errorf("Invalid port; non-number")
 				}
+				return fmt.Errorf("Invalid address; use host:port", split)
 			default:
 				return fmt.Errorf("Invalid address; address must be string")
 			}
@@ -38,6 +37,7 @@ func SetAddr(s ...interface{}) func(*Client) error {
 				if v < 65536 {
 					c.addr = s[0].(string)
 					c.port = strconv.Itoa(v)
+					return nil
 				} else {
 					return fmt.Errorf("Invalid port")
 				}
@@ -46,19 +46,18 @@ func SetAddr(s ...interface{}) func(*Client) error {
 					if i < 65536 {
 						c.addr = s[0].(string)
 						c.port = s[1].(string)
+						return nil
 					} else {
 						return fmt.Errorf("Invalid port")
 					}
-				} else {
-					return fmt.Errorf("Invalid port; non-number")
 				}
+				return fmt.Errorf("Invalid port; non-number")
 			default:
 				return fmt.Errorf("Invalid port; non-number")
 			}
 		} else {
 			return fmt.Errorf("Invalid address")
 		}
-		return nil
 	}
 }
 
@@ -82,16 +81,14 @@ func SetPort(s interface{}) func(*Client) error {
 			if port < 65536 && port > -1 {
 				c.port = v
 				return nil
-			} else {
-				return fmt.Errorf("Invalid port")
 			}
+			return fmt.Errorf("Invalid port")
 		case int:
 			if v < 65536 && v > -1 {
 				c.port = strconv.Itoa(v)
 				return nil
-			} else {
-				return fmt.Errorf("Invalid port")
 			}
+			return fmt.Errorf("Invalid port")
 		default:
 			return fmt.Errorf("Invalid port")
 		}
@@ -112,9 +109,8 @@ func SetInLength(u uint) func(*Client) error {
 		if u < 7 {
 			c.inLength = u
 			return nil
-		} else {
-			return fmt.Errorf("Invalid inbound tunnel length")
 		}
+		return fmt.Errorf("Invalid inbound tunnel length")
 	}
 }
 
@@ -124,9 +120,8 @@ func SetOutLength(u uint) func(*Client) error {
 		if u < 7 {
 			c.outLength = u
 			return nil
-		} else {
-			return fmt.Errorf("Invalid outbound tunnel length")
 		}
+		return fmt.Errorf("Invalid outbound tunnel length")
 	}
 }
 
@@ -136,9 +131,8 @@ func SetInVariance(i int) func(*Client) error {
 		if i < 7 && i > -7 {
 			c.inVariance = i
 			return nil
-		} else {
-			return fmt.Errorf("Invalid inbound tunnel length")
 		}
+		return fmt.Errorf("Invalid inbound tunnel length")
 	}
 }
 
@@ -148,9 +142,8 @@ func SetOutVariance(i int) func(*Client) error {
 		if i < 7 && i > -7 {
 			c.outVariance = i
 			return nil
-		} else {
-			return fmt.Errorf("Invalid outbound tunnel variance")
 		}
+		return fmt.Errorf("Invalid outbound tunnel variance")
 	}
 }
 
@@ -160,9 +153,8 @@ func SetInQuantity(u uint) func(*Client) error {
 		if u <= 16 {
 			c.inQuantity = u
 			return nil
-		} else {
-			return fmt.Errorf("Invalid inbound tunnel quantity")
 		}
+		return fmt.Errorf("Invalid inbound tunnel quantity")
 	}
 }
 
@@ -172,9 +164,8 @@ func SetOutQuantity(u uint) func(*Client) error {
 		if u <= 16 {
 			c.outQuantity = u
 			return nil
-		} else {
-			return fmt.Errorf("Invalid outbound tunnel quantity")
 		}
+		return fmt.Errorf("Invalid outbound tunnel quantity")
 	}
 }
 
@@ -184,9 +175,8 @@ func SetInBackups(u uint) func(*Client) error {
 		if u < 6 {
 			c.inBackups = u
 			return nil
-		} else {
-			return fmt.Errorf("Invalid inbound tunnel backup quantity")
 		}
+		return fmt.Errorf("Invalid inbound tunnel backup quantity")
 	}
 }
 
@@ -196,9 +186,8 @@ func SetOutBackups(u uint) func(*Client) error {
 		if u < 6 {
 			c.outBackups = u
 			return nil
-		} else {
-			return fmt.Errorf("Invalid outbound tunnel backup quantity")
 		}
+		return fmt.Errorf("Invalid outbound tunnel backup quantity")
 	}
 }
 

@@ -42,7 +42,7 @@ func NewClient(addr string) (*Client, error) {
 	return NewClientFromOptions(SetAddr(addr))
 }
 
-// NewClientFromOptionss creates a new client, connecting to a specified port
+// NewClientFromOptions creates a new client, connecting to a specified port
 func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	var c Client
 	c.addr = "127.0.0.1"
