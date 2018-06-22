@@ -10,52 +10,50 @@ import (
 type Option func(*Client) error
 
 //SetAddr sets a clients's address in the form host:port or host, port
-func SetAddr(s ...interface{}) func(*Client) error {
+func SetAddr(s ...string) func(*Client) error {
 	return func(c *Client) error {
 		if len(s) == 1 {
-			switch v := s[0].(type) {
-			case string:
-				split := strings.SplitN(v, ":", 2)
-				if len(split) == 2 {
-					if i, err := strconv.Atoi(split[1]); err == nil {
-						if i < 65536 {
-							c.addr = split[0]
-							c.port = split[1]
-							return nil
-						}
-						return fmt.Errorf("Invalid port")
-					}
-					return fmt.Errorf("Invalid port; non-number")
-				}
-				return fmt.Errorf("Invalid address; use host:port", split)
-			default:
-				return fmt.Errorf("Invalid address; address must be string")
-			}
-		} else if len(s) == 2 {
-			switch v := s[1].(type) {
-			case int:
-				if v < 65536 {
-					c.addr = s[0].(string)
-					c.port = strconv.Itoa(v)
-					return nil
-				}
-				return fmt.Errorf("Invalid port")
-			case string:
-				if i, err := strconv.Atoi(s[1].(string)); err == nil {
+			split := strings.SplitN(s[0], ":", 2)
+			if len(split) == 2 {
+				if i, err := strconv.Atoi(split[1]); err == nil {
 					if i < 65536 {
-						c.addr = s[0].(string)
-						c.port = s[1].(string)
+						c.addr = split[0]
+						c.port = split[1]
 						return nil
 					}
 					return fmt.Errorf("Invalid port")
 				}
 				return fmt.Errorf("Invalid port; non-number")
-			default:
-				return fmt.Errorf("Invalid port; non-number")
 			}
+			return fmt.Errorf("Invalid address; use host:port %s", split)
+		} else if len(s) == 2 {
+			if i, err := strconv.Atoi(s[1]); err == nil {
+				if i < 65536 {
+					c.addr = s[0]
+					c.port = s[1]
+					return nil
+				}
+				return fmt.Errorf("Invalid port")
+			}
+			return fmt.Errorf("Invalid port; non-number")
 		} else {
 			return fmt.Errorf("Invalid address")
 		}
+	}
+}
+
+//SetAddrMixed sets a clients's address in the form host:port or host, port
+func SetAddrMixed(s string, i int) func(*Client) error {
+	return func(c *Client) error {
+		if i, err := strconv.Atoi(s); err == nil {
+			if i < 65536 {
+				c.addr = s
+				c.port = strconv.Itoa(i)
+				return nil
+			}
+			return fmt.Errorf("Invalid port")
+		}
+		return fmt.Errorf("Invalid port; non-number")
 	}
 }
 
@@ -67,29 +65,29 @@ func SetHost(s string) func(*Client) error {
 	}
 }
 
-//SetPort sets the port of the client's SAM bridge
-func SetPort(s interface{}) func(*Client) error {
+//SetPort sets the port of the client's SAM bridge using a string
+func SetPort(s string) func(*Client) error {
 	return func(c *Client) error {
-		switch v := s.(type) {
-		case string:
-			port, err := strconv.Atoi(v)
-			if err != nil {
-				return fmt.Errorf("Invalid port; non-number")
-			}
-			if port < 65536 && port > -1 {
-				c.port = v
-				return nil
-			}
-			return fmt.Errorf("Invalid port")
-		case int:
-			if v < 65536 && v > -1 {
-				c.port = strconv.Itoa(v)
-				return nil
-			}
-			return fmt.Errorf("Invalid port")
-		default:
-			return fmt.Errorf("Invalid port")
+		port, err := strconv.Atoi(s)
+		if err != nil {
+			return fmt.Errorf("Invalid port; non-number")
 		}
+		if port < 65536 && port > -1 {
+			c.port = s
+			return nil
+		}
+		return fmt.Errorf("Invalid port")
+	}
+}
+
+//SetPortInt sets the port of the client's SAM bridge using a string
+func SetPortInt(i int) func(*Client) error {
+	return func(c *Client) error {
+		if i < 65536 && i > -1 {
+			c.port = strconv.Itoa(i)
+			return nil
+		}
+		return fmt.Errorf("Invalid port")
 	}
 }
 

@@ -33,7 +33,7 @@ func TestOptionAddrSlice(t *testing.T) {
 }
 
 func TestOptionAddrMixedSlice(t *testing.T) {
-	client, err := NewClientFromOptions(SetAddr("127.0.0.1", 7656), SetDebug(true))
+	client, err := NewClientFromOptions(SetAddrMixed("127.0.0.1", 7656), SetDebug(true))
 	if err != nil {
 		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
@@ -63,7 +63,7 @@ func TestOptionPort(t *testing.T) {
 }
 
 func TestOptionPortInt(t *testing.T) {
-	client, err := NewClientFromOptions(SetPort(7656), SetDebug(true))
+	client, err := NewClientFromOptions(SetPortInt(7656), SetDebug(true))
 	if err != nil {
 		t.Fatalf("NewDefaultClient() Error: %q\n", err)
 	}
