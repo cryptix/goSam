@@ -42,18 +42,15 @@ func SetAddr(s ...string) func(*Client) error {
 	}
 }
 
-//SetAddrMixed sets a clients's address in the form host:port or host, port
+//SetAddrMixed sets a clients's address in the form host, port(int)
 func SetAddrMixed(s string, i int) func(*Client) error {
 	return func(c *Client) error {
-		if i, err := strconv.Atoi(s); err == nil {
-			if i < 65536 {
-				c.addr = s
-				c.port = strconv.Itoa(i)
-				return nil
-			}
-			return fmt.Errorf("Invalid port")
+		if i < 65536 && i > 0 {
+			c.addr = s
+			c.port = strconv.Itoa(i)
+			return nil
 		}
-		return fmt.Errorf("Invalid port; non-number")
+		return fmt.Errorf("Invalid port")
 	}
 }
 
