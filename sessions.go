@@ -19,7 +19,7 @@ func (c *Client) CreateStreamSession(dest string) (int32, string, error) {
 	}
 
 	id := rand.Int31n(math.MaxInt32)
-	r, err := c.sendCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s\n", id, dest, c.allOptions())
+	r, err := c.sendCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, dest, c.allOptions())
 	if err != nil {
 		return -1, "", err
 	}
