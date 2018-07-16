@@ -17,7 +17,7 @@ func SetAddr(s ...string) func(*Client) error {
 			if len(split) == 2 {
 				if i, err := strconv.Atoi(split[1]); err == nil {
 					if i < 65536 {
-						c.addr = split[0]
+						c.host = split[0]
 						c.port = split[1]
 						return nil
 					}
@@ -29,7 +29,7 @@ func SetAddr(s ...string) func(*Client) error {
 		} else if len(s) == 2 {
 			if i, err := strconv.Atoi(s[1]); err == nil {
 				if i < 65536 {
-					c.addr = s[0]
+					c.host = s[0]
 					c.port = s[1]
 					return nil
 				}
@@ -46,7 +46,7 @@ func SetAddr(s ...string) func(*Client) error {
 func SetAddrMixed(s string, i int) func(*Client) error {
 	return func(c *Client) error {
 		if i < 65536 && i > 0 {
-			c.addr = s
+			c.host = s
 			c.port = strconv.Itoa(i)
 			return nil
 		}
@@ -57,7 +57,7 @@ func SetAddrMixed(s string, i int) func(*Client) error {
 //SetHost sets the host of the client's SAM bridge
 func SetHost(s string) func(*Client) error {
 	return func(c *Client) error {
-		c.addr = s
+		c.host = s
 		return nil
 	}
 }

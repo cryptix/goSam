@@ -11,7 +11,7 @@ func TestClientLookupInvalid(t *testing.T) {
 	setup(t)
 	defer teardown(t)
 
-	addr, err := client.Lookup("abci2p")
+	addr, err := client.Lookup("abc.i2p")
 	if addr != "" || err == nil {
 		t.Error("client.Lookup() should throw an error.")
 	}

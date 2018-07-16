@@ -10,7 +10,7 @@ import (
 
 // A Client represents a single Connection to the SAM bridge
 type Client struct {
-	addr string
+	host string
 	port string
 
 	SamConn net.Conn
@@ -45,7 +45,7 @@ func NewClient(addr string) (*Client, error) {
 // NewClientFromOptions creates a new client, connecting to a specified port
 func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	var c Client
-	c.addr = "127.0.0.1"
+	c.host = "127.0.0.1"
 	c.port = "7656"
 	c.inLength = 3
 	c.inVariance = 0
@@ -75,9 +75,9 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	return &c, c.hello()
 }
 
-//return the combined addr:port of the SAM bridge
+//return the combined host:port of the SAM bridge
 func (c *Client) samaddr() string {
-	return fmt.Sprintf("%s:%s", c.addr, c.port)
+	return fmt.Sprintf("%s:%s", c.host, c.port)
 }
 
 // send the initial handshake command and check that the reply is ok
