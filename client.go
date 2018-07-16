@@ -29,12 +29,12 @@ type Client struct {
 	dontPublishLease bool
 	encryptLease     bool
 
-    reduceIdle bool
-    reduceIdleTime uint
-    reduceIdleQuantity uint
+	reduceIdle         bool
+	reduceIdleTime     uint
+	reduceIdleQuantity uint
 
-    closeIdle bool
-    closeIdleTime uint
+	closeIdle     bool
+	closeIdleTime uint
 
 	debug bool
 }
@@ -64,11 +64,11 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.outBackups = 2
 	c.dontPublishLease = true
 	c.encryptLease = false
-    c.reduceIdle = false
-    c.reduceIdleTime = 300000
-    c.reduceIdleQuantity = 4
-    c.closeIdle = true
-    c.closeIdleTime = 600000
+	c.reduceIdle = false
+	c.reduceIdleTime = 300000
+	c.reduceIdleQuantity = 4
+	c.closeIdle = true
+	c.closeIdleTime = 600000
 	c.debug = false
 	for _, o := range opts {
 		if err := o(&c); err != nil {

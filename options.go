@@ -200,7 +200,7 @@ func SetEncrypt(b bool) func(*Client) error {
 	}
 }
 
-//SetReduceIdle tells the router to use an encrypted leaseset
+//SetReduceIdle tells the router to reduce tunnels to lower levels when idle
 func SetReduceIdle(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.reduceIdle = b
@@ -208,10 +208,10 @@ func SetReduceIdle(b bool) func(*Client) error {
 	}
 }
 
-//SetReduceIdleTime sets the inbound tunnel backups
+//SetReduceIdleTime sets the time to wait before reducing tunnels to idle levels
 func SetReduceIdleTime(u uint) func(*Client) error {
 	return func(c *Client) error {
-		if u > 300000 {
+		if u >= 300000 {
 			c.reduceIdleTime = u
 			return nil
 		}
@@ -219,7 +219,7 @@ func SetReduceIdleTime(u uint) func(*Client) error {
 	}
 }
 
-//SetReduceIdleQuantity sets the inbound tunnel backups
+//SetReduceIdleQuantity sets the number of tunnels to reduce to when idle
 func SetReduceIdleQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 5 {
@@ -230,7 +230,7 @@ func SetReduceIdleQuantity(u uint) func(*Client) error {
 	}
 }
 
-//SetCloseIdle tells the router to use an encrypted leaseset
+//SetCloseIdle tells the router to close tunnels when idle
 func SetCloseIdle(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.closeIdle = b
@@ -238,10 +238,10 @@ func SetCloseIdle(b bool) func(*Client) error {
 	}
 }
 
-//SetCloseIdleTime sets the inbound tunnel backups
+//SetCloseIdleTime sets the time to wait before closing tunnles due to idleness.
 func SetCloseIdleTime(u uint) func(*Client) error {
 	return func(c *Client) error {
-		if u > 300000 {
+		if u >= 300000 {
 			c.closeIdleTime = u
 			return nil
 		}
@@ -342,10 +342,10 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outbackups())
 	options = append(options, c.dontpublishlease())
 	options = append(options, c.encryptlease())
-    options = append(options, c.reduceonidle())
-    options = append(options, c.reduceidletime())
-    options = append(options, c.reduceidlecount())
-    options = append(options, c.closeonidle())
-    options = append(options, c.closeidletime())
+	options = append(options, c.reduceonidle())
+	options = append(options, c.reduceidletime())
+	options = append(options, c.reduceidlecount())
+	options = append(options, c.closeonidle())
+	options = append(options, c.closeidletime())
 	return options
 }
