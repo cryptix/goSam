@@ -189,3 +189,53 @@ func TestOptionUnpublishedLease(t *testing.T) {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
 }
+
+func TestOptionReduceIdle(t *testing.T) {
+	client, err := NewClientFromOptions(SetReduceIdle(true), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionReduceIdleTime(t *testing.T) {
+	client, err := NewClientFromOptions(SetReduceIdleTime(300001), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionReduceIdleCount(t *testing.T) {
+	client, err := NewClientFromOptions(SetReduceIdleQuantity(4), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionCloseIdle(t *testing.T) {
+	client, err := NewClientFromOptions(SetCloseIdle(true), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}
+
+func TestOptionCloseIdleTime(t *testing.T) {
+	client, err := NewClientFromOptions(SetCloseIdleTime(300001), SetDebug(true))
+	if err != nil {
+		t.Fatalf("NewDefaultClient() Error: %q\n", err)
+	}
+	if err := client.Close(); err != nil {
+		t.Fatalf("client.Close() Error: %q\n", err)
+	}
+}

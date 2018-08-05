@@ -200,44 +200,93 @@ func SetEncrypt(b bool) func(*Client) error {
 	}
 }
 
+//SetReduceIdle tells the router to use an encrypted leaseset
+func SetReduceIdle(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.reduceIdle = b
+		return nil
+	}
+}
+
+//SetReduceIdleTime sets the inbound tunnel backups
+func SetReduceIdleTime(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u > 300000 {
+			c.reduceIdleTime = u
+			return nil
+		}
+		return fmt.Errorf("Invalid reduce idle time %v", u)
+	}
+}
+
+//SetReduceIdleQuantity sets the inbound tunnel backups
+func SetReduceIdleQuantity(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 5 {
+			c.reduceIdleQuantity = u
+			return nil
+		}
+		return fmt.Errorf("Invalid reduced tunnel quantity %v", u)
+	}
+}
+
+//SetCloseIdle tells the router to use an encrypted leaseset
+func SetCloseIdle(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.closeIdle = b
+		return nil
+	}
+}
+
+//SetCloseIdleTime sets the inbound tunnel backups
+func SetCloseIdleTime(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u > 300000 {
+			c.closeIdleTime = u
+			return nil
+		}
+		return fmt.Errorf("Invalid close idle time %v", u)
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
-	return "inbound.length=" + fmt.Sprint(c.inLength)
+	return fmt.Sprintf("inbound.length=%d", c.inLength)
 }
 
 //return the outbound length as a string.
 func (c *Client) outlength() string {
-	return "outbound.length=" + fmt.Sprint(c.outLength)
+	return fmt.Sprintf("outbound.length=%d", c.outLength)
 }
 
 //return the inbound length variance as a string.
 func (c *Client) invariance() string {
-	return "inbound.lengthVariance=" + fmt.Sprint(c.inVariance)
+	return fmt.Sprintf("inbound.lengthVariance=%d", c.inVariance)
 }
 
 //return the outbound length variance as a string.
 func (c *Client) outvariance() string {
-	return "outbound.lengthVariance=" + fmt.Sprint(c.outVariance)
+	return fmt.Sprintf("outbound.lengthVariance=%d", c.outVariance)
 }
 
 //return the inbound tunnel quantity as a string.
 func (c *Client) inquantity() string {
-	return "inbound.quantity=" + fmt.Sprint(c.inQuantity)
+	return fmt.Sprintf("inbound.quantity=%d", c.inQuantity)
 }
 
 //return the outbound tunnel quantity as a string.
 func (c *Client) outquantity() string {
-	return "outbound.quantity=" + fmt.Sprint(c.outQuantity)
+	return fmt.Sprintf("outbound.quantity=%d", c.outQuantity)
 }
 
 //return the inbound tunnel quantity as a string.
 func (c *Client) inbackups() string {
-	return "inbound.backupQuantity=" + fmt.Sprint(c.inQuantity)
+	return fmt.Sprintf("inbound.backupQuantity=%d", c.inQuantity)
 }
 
 //return the outbound tunnel quantity as a string.
 func (c *Client) outbackups() string {
-	return "outbound.backupQuantity=" + fmt.Sprint(c.outQuantity)
+	return fmt.Sprintf("outbound.backupQuantity=%d", c.outQuantity)
 }
 
 func (c *Client) encryptlease() string {
@@ -254,18 +303,49 @@ func (c *Client) dontpublishlease() string {
 	return "i2cp.dontPublishLeaseSet=false"
 }
 
+func (c *Client) closeonidle() string {
+	if c.closeIdle {
+		return "i2cp.closeOnIdle=true"
+	}
+	return "i2cp.closeOnIdle=false"
+}
+
+func (c *Client) closeidletime() string {
+	return fmt.Sprintf("i2cp.closeIdleTime=%d", c.closeIdleTime)
+}
+
+func (c *Client) reduceonidle() string {
+	if c.reduceIdle {
+		return "i2cp.reduceOnIdle=true"
+	}
+	return "i2cp.reduceOnIdle=false"
+}
+
+func (c *Client) reduceidletime() string {
+	return fmt.Sprintf("i2cp.reduceIdleTime=%d", c.reduceIdleTime)
+}
+
+func (c *Client) reduceidlecount() string {
+	return fmt.Sprintf("i2cp.reduceIdleQuantity=%d", c.reduceIdleQuantity)
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
-	var options []string
-	options = append(options, c.inlength())
-	options = append(options, c.outlength())
-	options = append(options, c.invariance())
-	options = append(options, c.outvariance())
-	options = append(options, c.inquantity())
-	options = append(options, c.outquantity())
-	options = append(options, c.inbackups())
-	options = append(options, c.outbackups())
-	options = append(options, c.dontpublishlease())
-	options = append(options, c.encryptlease())
-	return options
+	return []string{
+		c.inlength(),
+		c.outlength(),
+		c.invariance(),
+		c.outvariance(),
+		c.inquantity(),
+		c.outquantity(),
+		c.inbackups(),
+		c.outbackups(),
+		c.dontpublishlease(),
+		c.encryptlease(),
+		c.reduceonidle(),
+		c.reduceidletime(),
+		c.reduceidlecount(),
+		c.closeonidle(),
+		c.closeidletime(),
+	}
 }
