@@ -342,10 +342,12 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outbackups())
 	options = append(options, c.dontpublishlease())
 	options = append(options, c.encryptlease())
+
 	options = append(options, c.reduceonidle())
 	options = append(options, c.reduceidletime())
 	options = append(options, c.reduceidlecount())
 	options = append(options, c.closeonidle())
 	options = append(options, c.closeidletime())
+
 	return options
 }
