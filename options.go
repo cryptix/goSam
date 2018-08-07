@@ -200,6 +200,55 @@ func SetEncrypt(b bool) func(*Client) error {
 	}
 }
 
+//SetReduceIdle tells the router to reduce tunnels to lower levels when idle
+func SetReduceIdle(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.reduceIdle = b
+		return nil
+	}
+}
+
+//SetReduceIdleTime sets the time to wait before reducing tunnels to idle levels
+func SetReduceIdleTime(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u >= 300000 {
+			c.reduceIdleTime = u
+			return nil
+		}
+		return fmt.Errorf("Invalid reduce idle time %v", u)
+	}
+}
+
+//SetReduceIdleQuantity sets the number of tunnels to reduce to when idle
+func SetReduceIdleQuantity(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u < 5 {
+			c.reduceIdleQuantity = u
+			return nil
+		}
+		return fmt.Errorf("Invalid reduced tunnel quantity %v", u)
+	}
+}
+
+//SetCloseIdle tells the router to close tunnels when idle
+func SetCloseIdle(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.closeIdle = b
+		return nil
+	}
+}
+
+//SetCloseIdleTime sets the time to wait before closing tunnles due to idleness.
+func SetCloseIdleTime(u uint) func(*Client) error {
+	return func(c *Client) error {
+		if u >= 300000 {
+			c.closeIdleTime = u
+			return nil
+		}
+		return fmt.Errorf("Invalid close idle time %v", u)
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return "inbound.length=" + fmt.Sprint(c.inLength)
@@ -254,6 +303,32 @@ func (c *Client) dontpublishlease() string {
 	return "i2cp.dontPublishLeaseSet=false"
 }
 
+func (c *Client) closeonidle() string {
+	if c.closeIdle {
+		return "i2cp.closeOnIdle=true"
+	}
+	return "i2cp.closeOnIdle=false"
+}
+
+func (c *Client) closeidletime() string {
+	return "i2cp.closeIdleTime=" + fmt.Sprint(c.closeIdleTime)
+}
+
+func (c *Client) reduceonidle() string {
+	if c.reduceIdle {
+		return "i2cp.reduceOnIdle=true"
+	}
+	return "i2cp.reduceOnIdle=false"
+}
+
+func (c *Client) reduceidletime() string {
+	return "i2cp.reduceIdleTime=" + fmt.Sprint(c.reduceIdleTime)
+}
+
+func (c *Client) reduceidlecount() string {
+	return "i2cp.reduceIdleQuantity=" + fmt.Sprint(c.reduceIdleQuantity)
+}
+
 //return all options as string array ready for passing to sendcmd
 func (c *Client) allOptions() []string {
 	var options []string
@@ -267,5 +342,12 @@ func (c *Client) allOptions() []string {
 	options = append(options, c.outbackups())
 	options = append(options, c.dontpublishlease())
 	options = append(options, c.encryptlease())
+
+	options = append(options, c.reduceonidle())
+	options = append(options, c.reduceidletime())
+	options = append(options, c.reduceidlecount())
+	options = append(options, c.closeonidle())
+	options = append(options, c.closeidletime())
+
 	return options
 }
