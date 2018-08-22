@@ -29,7 +29,7 @@ func (c *Client) validCmd(str string, args ...interface{}) (string, error) {
 
 func (c *Client) validCreate() (string, error) {
 	id := rand.Int31n(math.MaxInt32)
-	result, err := c.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "zzz.i2p", client.allOptions())
+	result, err := c.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions())
 	return result, err
 }
 
