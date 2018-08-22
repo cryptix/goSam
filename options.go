@@ -330,22 +330,20 @@ func (c *Client) reduceidlecount() string {
 }
 
 //return all options as string array ready for passing to sendcmd
-func (c *Client) allOptions() []string {
-	return []string{
-		c.inlength(),
-		c.outlength(),
-		c.invariance(),
-		c.outvariance(),
-		c.inquantity(),
-		c.outquantity(),
-		c.inbackups(),
-		c.outbackups(),
-		c.dontpublishlease(),
-		c.encryptlease(),
-		c.reduceonidle(),
-		c.reduceidletime(),
-		c.reduceidlecount(),
-		c.closeonidle(),
-		c.closeidletime(),
-	}
+func (c *Client) allOptions() string {
+	return c.inlength() + " " +
+		c.outlength() + " " +
+		c.invariance() + " " +
+		c.outvariance() + " " +
+		c.inquantity() + " " +
+		c.outquantity() + " " +
+		c.inbackups() + " " +
+		c.outbackups() + " " +
+		c.dontpublishlease() + " " +
+		c.encryptlease() + " " +
+		c.reduceonidle() + " " +
+		c.reduceidletime() + " " +
+		c.reduceidlecount() + " " +
+		c.closeonidle() + " " +
+		c.closeidletime()
 }

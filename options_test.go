@@ -1,6 +1,27 @@
 package goSam
 
-import "testing"
+import (
+	"fmt"
+	"math"
+	"math/rand"
+	"strings"
+	"testing"
+)
+
+// helper to validate sendCmd inputs
+func (c *Client) validCmd(str string, args ...interface{}) (string, error) {
+	if s := fmt.Sprintf(str, args...); strings.Contains(s, "\n") {
+		sl := strings.Split(s, "\n")
+		if len(sl) == 2 {
+			for li, in := range sl {
+                fmt.Println(li, in)
+            }
+			return s, nil
+		}
+		return "", fmt.Errorf("Error, invalid length: %d", len(sl))
+	}
+	return "", fmt.Errorf("Error, invalid input")
+}
 
 func TestOptionAddrString(t *testing.T) {
 	client, err := NewClientFromOptions(SetAddr("127.0.0.1:7656"), SetDebug(true))
@@ -10,6 +31,12 @@ func TestOptionAddrString(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionAddrStringLh(t *testing.T) {
@@ -20,6 +47,12 @@ func TestOptionAddrStringLh(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionAddrSlice(t *testing.T) {
@@ -30,6 +63,12 @@ func TestOptionAddrSlice(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionAddrMixedSlice(t *testing.T) {
@@ -40,6 +79,12 @@ func TestOptionAddrMixedSlice(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionHost(t *testing.T) {
@@ -50,6 +95,12 @@ func TestOptionHost(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionPort(t *testing.T) {
@@ -60,6 +111,12 @@ func TestOptionPort(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionPortInt(t *testing.T) {
@@ -70,6 +127,12 @@ func TestOptionPortInt(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionDebug(t *testing.T) {
@@ -80,6 +143,12 @@ func TestOptionDebug(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionInLength(t *testing.T) {
@@ -91,6 +160,12 @@ func TestOptionInLength(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionOutLength(t *testing.T) {
@@ -102,6 +177,12 @@ func TestOptionOutLength(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionInVariance(t *testing.T) {
@@ -113,6 +194,12 @@ func TestOptionInVariance(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionOutVariance(t *testing.T) {
@@ -124,6 +211,12 @@ func TestOptionOutVariance(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionInQuantity(t *testing.T) {
@@ -135,6 +228,12 @@ func TestOptionInQuantity(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionOutQuantity(t *testing.T) {
@@ -146,6 +245,12 @@ func TestOptionOutQuantity(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionInBackups(t *testing.T) {
@@ -157,6 +262,12 @@ func TestOptionInBackups(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionOutBackups(t *testing.T) {
@@ -168,6 +279,12 @@ func TestOptionOutBackups(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionEncryptLease(t *testing.T) {
@@ -178,6 +295,12 @@ func TestOptionEncryptLease(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionUnpublishedLease(t *testing.T) {
@@ -188,6 +311,12 @@ func TestOptionUnpublishedLease(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionReduceIdle(t *testing.T) {
@@ -198,6 +327,12 @@ func TestOptionReduceIdle(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionReduceIdleTime(t *testing.T) {
@@ -208,6 +343,12 @@ func TestOptionReduceIdleTime(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionReduceIdleCount(t *testing.T) {
@@ -218,6 +359,12 @@ func TestOptionReduceIdleCount(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionCloseIdle(t *testing.T) {
@@ -228,6 +375,12 @@ func TestOptionCloseIdle(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
 
 func TestOptionCloseIdleTime(t *testing.T) {
@@ -238,4 +391,10 @@ func TestOptionCloseIdleTime(t *testing.T) {
 	if err := client.Close(); err != nil {
 		t.Fatalf("client.Close() Error: %q\n", err)
 	}
+	id := rand.Int31n(math.MaxInt32)
+	if result, err := client.validCmd("SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s\n", id, "abc.i2p", client.allOptions()); err != nil{
+        t.Fatalf(err.Error())
+    }else{
+        t.Log(result)
+    }
 }
