@@ -14,7 +14,7 @@ func (c *Client) validCmd(str string, args ...interface{}) (string, error) {
 		sl := strings.Split(s, "\n")
 		if len(sl) == 2 {
 			if sl[1] != "" {
-				return "", fmt.Errorf("Error, there should be no options after the newline")
+				return sl[1], fmt.Errorf("Error, there should be no options after the newline")
 			}
 			for li, in := range sl {
 				fmt.Println(li, in)
