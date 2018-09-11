@@ -200,7 +200,7 @@ func SetEncrypt(b bool) func(*Client) error {
 	}
 }
 
-//SetReduceIdle tells the router to use an encrypted leaseset
+//SetReduceIdle sets the created tunnels to be reduced during extended idle time to avoid excessive resource usage
 func SetReduceIdle(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.reduceIdle = b
@@ -208,7 +208,7 @@ func SetReduceIdle(b bool) func(*Client) error {
 	}
 }
 
-//SetReduceIdleTime sets the inbound tunnel backups
+//SetReduceIdleTime sets time to wait before the tunnel quantity is reduced
 func SetReduceIdleTime(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u > 300000 {
@@ -219,7 +219,7 @@ func SetReduceIdleTime(u uint) func(*Client) error {
 	}
 }
 
-//SetReduceIdleQuantity sets the inbound tunnel backups
+//SetReduceIdleQuantity sets number of tunnels to keep alive during an extended idle period
 func SetReduceIdleQuantity(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u < 5 {
@@ -230,7 +230,7 @@ func SetReduceIdleQuantity(u uint) func(*Client) error {
 	}
 }
 
-//SetCloseIdle tells the router to use an encrypted leaseset
+//SetCloseIdle sets the tunnels to close after a specific amount of time
 func SetCloseIdle(b bool) func(*Client) error {
 	return func(c *Client) error {
 		c.closeIdle = b
@@ -238,7 +238,7 @@ func SetCloseIdle(b bool) func(*Client) error {
 	}
 }
 
-//SetCloseIdleTime sets the inbound tunnel backups
+//SetCloseIdleTime sets the time in milliseconds to wait before closing tunnels
 func SetCloseIdleTime(u uint) func(*Client) error {
 	return func(c *Client) error {
 		if u > 300000 {
@@ -329,7 +329,7 @@ func (c *Client) reduceidlecount() string {
 	return fmt.Sprintf("i2cp.reduceIdleQuantity=%d", c.reduceIdleQuantity)
 }
 
-//return all options as string array ready for passing to sendcmd
+//return all options as string ready for passing to sendcmd
 func (c *Client) allOptions() string {
 	return c.inlength() + " " +
 		c.outlength() + " " +
