@@ -153,10 +153,9 @@ issue for discussion and
 
 ### (5) Conduct
 
-Seriously, this should go without saying, but I'm going to anyway. This is a
-small-ish, straightforward library intended to enable a clear a clear technical
-task. We should be able to be civil with eachother, give and accept criticism
-contructively, and respect eachother's busy schedules.
+This is a small-ish, straightforward library intended to enable a clear
+technical task. We should be able to be civil with eachother, and give and
+accept criticism contructively and respectfully.
 
 This document was drawn from the examples given by Mozilla
 [here](mozillascience.github.io/working-open-workshop/contributing/)
