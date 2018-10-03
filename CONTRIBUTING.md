@@ -1,10 +1,8 @@
 How to make contributions to goSam
 ==================================
 
-*This is an informal, non-binding document. It's also a work-in-progress.*
-
-Welcome to goSam, the easy-to-use http client library for i2p. We're glad you're
-here and interested in contributing. Here's some help getting started.
+Welcome to goSam, the easy-to-use http client for i2p. We're glad you're here
+and interested in contributing. Here's some help getting started.
 
 Table of Contents
 -----------------
