@@ -249,6 +249,14 @@ func SetCloseIdleTime(u uint) func(*Client) error {
 	}
 }
 
+//SetCompression sets the tunnels to close after a specific amount of time
+func SetCompression(b bool) func(*Client) error {
+	return func(c *Client) error {
+		c.compression = b
+		return nil
+	}
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
 	return fmt.Sprintf("inbound.length=%d", c.inLength)
@@ -329,6 +337,13 @@ func (c *Client) reduceidlecount() string {
 	return fmt.Sprintf("i2cp.reduceIdleQuantity=%d", c.reduceIdleQuantity)
 }
 
+func (c *Client) compresion() string {
+	if c.compression {
+		return "i2cp.gzip=true"
+	}
+	return "i2cp.gzip=false"
+}
+
 //return all options as string ready for passing to sendcmd
 func (c *Client) allOptions() string {
 	return c.inlength() + " " +
@@ -345,5 +360,6 @@ func (c *Client) allOptions() string {
 		c.reduceidletime() + " " +
 		c.reduceidlecount() + " " +
 		c.closeonidle() + " " +
-		c.closeidletime()
+		c.closeidletime() + " " +
+        c.compresion()
 }

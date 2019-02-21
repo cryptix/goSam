@@ -36,6 +36,8 @@ type Client struct {
 	closeIdle     bool
 	closeIdleTime uint
 
+    compression bool
+
 	debug bool
 }
 
