@@ -1,4 +1,4 @@
-module github.com/cryptix/goSam
+module github.com/eyedeekay/goSam
 
 require (
 	github.com/cryptix/go v1.3.1
