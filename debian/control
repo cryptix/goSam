@@ -2,7 +2,7 @@ Source: golang-github-eyedeekay-gosam
 Section: devel
 Priority: optional
 Maintainer: Debian Go Packaging Team <team+pkg-go@tracker.debian.org>
-Uploaders: lair repo key <problemsolver@openmailbox.org>
+Uploaders: idk <hankhill19580@gmail.com>
 Build-Depends: debhelper (>= 11),
                dh-golang,
                golang-any
