@@ -1,6 +1,6 @@
-golang-github-eyedeekay-gosam (0.1.0+git20190221.2896c83-1) UNRELEASED; urgency=medium
+golang-github-eyedeekay-gosam (0.1.0+git20190221.2896c83-1) unstable; urgency=medium
 
   [ idk ]
   * Initial release (Closes: TODO)
 
- -- lair repo key <problemsolver@openmailbox.org>  Sat, 23 Feb 2019 11:32:34 -0500
+ -- lair repo key <problemsolver@openmailbox.org>  Sat, 23 Feb 2019 11:43:05 -0500
