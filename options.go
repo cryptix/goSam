@@ -257,109 +257,140 @@ func SetCompression(b bool) func(*Client) error {
 	}
 }
 
+/* SAM v 3.1 Options*/
+
+//SetSignatureType tells gosam to pass SAM a signature_type parameter with one
+// of the following values:
+//    "SIGNATURE_TYPE=DSA_SHA1",
+//    "SIGNATURE_TYPE=ECDSA_SHA256_P256",
+//    "SIGNATURE_TYPE=ECDSA_SHA384_P384",
+//    "SIGNATURE_TYPE=ECDSA_SHA512_P521",
+//    "SIGNATURE_TYPE=EdDSA_SHA512_Ed25519",
+// or an empty string
+func SetSignatureType(s string) func(*Client) error {
+	return func(c *Client) error {
+		if s == "" {
+			c.sigType = ""
+			return nil
+		}
+		for _, valid := range SAMsigTypes {
+			if s == valid {
+				c.sigType = valid
+				return nil
+			}
+		}
+		return fmt.Errorf("Invalid signature type specified at construction time")
+	}
+}
+
+//return the signature type as a string.
+func (c *Client) sigtype() string {
+	return fmt.Sprintf(" %s ", c.sigType)
+}
+
 //return the inbound length as a string.
 func (c *Client) inlength() string {
-	return fmt.Sprintf("inbound.length=%d", c.inLength)
+	return fmt.Sprintf(" inbound.length=%d ", c.inLength)
 }
 
 //return the outbound length as a string.
 func (c *Client) outlength() string {
-	return fmt.Sprintf("outbound.length=%d", c.outLength)
+	return fmt.Sprintf(" outbound.length=%d ", c.outLength)
 }
 
 //return the inbound length variance as a string.
 func (c *Client) invariance() string {
-	return fmt.Sprintf("inbound.lengthVariance=%d", c.inVariance)
+	return fmt.Sprintf(" inbound.lengthVariance=%d ", c.inVariance)
 }
 
 //return the outbound length variance as a string.
 func (c *Client) outvariance() string {
-	return fmt.Sprintf("outbound.lengthVariance=%d", c.outVariance)
+	return fmt.Sprintf(" outbound.lengthVariance=%d ", c.outVariance)
 }
 
 //return the inbound tunnel quantity as a string.
 func (c *Client) inquantity() string {
-	return fmt.Sprintf("inbound.quantity=%d", c.inQuantity)
+	return fmt.Sprintf(" inbound.quantity=%d ", c.inQuantity)
 }
 
 //return the outbound tunnel quantity as a string.
 func (c *Client) outquantity() string {
-	return fmt.Sprintf("outbound.quantity=%d", c.outQuantity)
+	return fmt.Sprintf(" outbound.quantity=%d ", c.outQuantity)
 }
 
 //return the inbound tunnel quantity as a string.
 func (c *Client) inbackups() string {
-	return fmt.Sprintf("inbound.backupQuantity=%d", c.inQuantity)
+	return fmt.Sprintf(" inbound.backupQuantity=%d ", c.inQuantity)
 }
 
 //return the outbound tunnel quantity as a string.
 func (c *Client) outbackups() string {
-	return fmt.Sprintf("outbound.backupQuantity=%d", c.outQuantity)
+	return fmt.Sprintf(" outbound.backupQuantity=%d ", c.outQuantity)
 }
 
 func (c *Client) encryptlease() string {
 	if c.encryptLease {
-		return "i2cp.encryptLeaseSet=true"
+		return " i2cp.encryptLeaseSet=true "
 	}
-	return "i2cp.encryptLeaseSet=false"
+	return " i2cp.encryptLeaseSet=false "
 }
 
 func (c *Client) dontpublishlease() string {
 	if c.dontPublishLease {
-		return "i2cp.dontPublishLeaseSet=true"
+		return " i2cp.dontPublishLeaseSet=true "
 	}
-	return "i2cp.dontPublishLeaseSet=false"
+	return " i2cp.dontPublishLeaseSet=false "
 }
 
 func (c *Client) closeonidle() string {
 	if c.closeIdle {
-		return "i2cp.closeOnIdle=true"
+		return " i2cp.closeOnIdle=true "
 	}
-	return "i2cp.closeOnIdle=false"
+	return " i2cp.closeOnIdle=false "
 }
 
 func (c *Client) closeidletime() string {
-	return fmt.Sprintf("i2cp.closeIdleTime=%d", c.closeIdleTime)
+	return fmt.Sprintf(" i2cp.closeIdleTime=%d ", c.closeIdleTime)
 }
 
 func (c *Client) reduceonidle() string {
 	if c.reduceIdle {
-		return "i2cp.reduceOnIdle=true"
+		return " i2cp.reduceOnIdle=true "
 	}
-	return "i2cp.reduceOnIdle=false"
+	return " i2cp.reduceOnIdle=false "
 }
 
 func (c *Client) reduceidletime() string {
-	return fmt.Sprintf("i2cp.reduceIdleTime=%d", c.reduceIdleTime)
+	return fmt.Sprintf(" i2cp.reduceIdleTime=%d ", c.reduceIdleTime)
 }
 
 func (c *Client) reduceidlecount() string {
-	return fmt.Sprintf("i2cp.reduceIdleQuantity=%d", c.reduceIdleQuantity)
+	return fmt.Sprintf(" i2cp.reduceIdleQuantity=%d ", c.reduceIdleQuantity)
 }
 
 func (c *Client) compresion() string {
 	if c.compression {
-		return "i2cp.gzip=true"
+		return " i2cp.gzip=true "
 	}
-	return "i2cp.gzip=false"
+	return " i2cp.gzip=false "
 }
 
 //return all options as string ready for passing to sendcmd
 func (c *Client) allOptions() string {
-	return c.inlength() + " " +
-		c.outlength() + " " +
-		c.invariance() + " " +
-		c.outvariance() + " " +
-		c.inquantity() + " " +
-		c.outquantity() + " " +
-		c.inbackups() + " " +
-		c.outbackups() + " " +
-		c.dontpublishlease() + " " +
-		c.encryptlease() + " " +
-		c.reduceonidle() + " " +
-		c.reduceidletime() + " " +
-		c.reduceidlecount() + " " +
-		c.closeonidle() + " " +
-		c.closeidletime() + " " +
-        c.compresion()
+	return c.inlength() +
+		c.outlength() +
+		c.invariance() +
+		c.outvariance() +
+		c.inquantity() +
+		c.outquantity() +
+		c.inbackups() +
+		c.outbackups() +
+		c.dontpublishlease() +
+		c.encryptlease() +
+		c.reduceonidle() +
+		c.reduceidletime() +
+		c.reduceidlecount() +
+		c.closeonidle() +
+		c.closeidletime() +
+		c.compresion()
 }

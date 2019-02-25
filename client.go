@@ -16,6 +16,8 @@ type Client struct {
 	SamConn net.Conn
 	rd      *bufio.Reader
 
+	sigType string
+
 	inLength   uint
 	inVariance int
 	inQuantity uint
@@ -36,9 +38,17 @@ type Client struct {
 	closeIdle     bool
 	closeIdleTime uint
 
-    compression bool
+	compression bool
 
 	debug bool
+}
+
+var SAMsigTypes = []string{
+	"SIGNATURE_TYPE=DSA_SHA1",
+	"SIGNATURE_TYPE=ECDSA_SHA256_P256",
+	"SIGNATURE_TYPE=ECDSA_SHA384_P384",
+	"SIGNATURE_TYPE=ECDSA_SHA512_P521",
+	"SIGNATURE_TYPE=EdDSA_SHA512_Ed25519",
 }
 
 // NewDefaultClient creates a new client, connecting to the default host:port at localhost:7656
@@ -72,6 +82,7 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.closeIdle = true
 	c.closeIdleTime = 600000
 	c.debug = false
+	c.sigType = ""
 	for _, o := range opts {
 		if err := o(&c); err != nil {
 			return nil, err
@@ -96,7 +107,7 @@ func (c *Client) samaddr() string {
 
 // send the initial handshake command and check that the reply is ok
 func (c *Client) hello() error {
-	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.2\n")
+	r, err := c.sendCmd("HELLO VERSION MIN=3.0 MAX=3.1\n")
 	if err != nil {
 		return err
 	}
