@@ -21,3 +21,4 @@ _testmain.go
 
 *.exe
 itp-golang-github-eyedeekay-gosam.txt
+.pc
