@@ -116,7 +116,7 @@ func (c *Client) hello() error {
 		return fmt.Errorf("Unknown Reply: %+v\n", r)
 	}
 
-	if r.Pairs["RESULT"] != "OK" || r.Pairs["VERSION"] != "3.0" {
+	if r.Pairs["RESULT"] != "OK" {
 		return fmt.Errorf("Handshake did not succeed\nReply:%+v\n", r)
 	}
 
