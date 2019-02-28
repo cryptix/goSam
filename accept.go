@@ -9,28 +9,31 @@ import (
 
 // Accept creates a new Client and accepts a connection on it
 func (c *Client) Accept() (net.Conn, error) {
-	id, newAddr, err := c.CreateStreamSession("")
+	var err error
+	var id int32
+	id = c.NewID()
+	c.destination, err = c.CreateStreamSession(id, "")
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("NewAddr:", newAddr)
+	fmt.Println("destination:", c.destination)
 
-	newC, err := NewDefaultClient()
+	c, err = c.NewClient()
 	if err != nil {
 		return nil, err
 	}
 
 	if c.debug {
-		newC.SamConn = debug.WrapConn(newC.SamConn)
+		c.SamConn = debug.WrapConn(c.SamConn)
 	}
 
-	resp, err := newC.StreamAccept(id)
+	resp, err := c.StreamAccept(id)
 	if err != nil {
 		return nil, err
 	}
 
 	fmt.Println("Accept Resp:", resp)
 
-	return newC.SamConn, nil
+	return c.SamConn, nil
 }

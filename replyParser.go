@@ -57,7 +57,7 @@ func parseReply(line string) (*Reply, error) {
 			}
 		}
 
-		r.Pairs[kvPair[0]] = kvPair[1]
+		r.Pairs[kvPair[0]] = kvPair[len(kvPair)-1]
 	}
 
 	return r, nil

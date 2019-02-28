@@ -62,6 +62,20 @@ func SetHost(s string) func(*Client) error {
 	}
 }
 
+func setlastaddr(s string) func(*Client) error {
+	return func(c *Client) error {
+		c.lastaddr = s
+		return nil
+	}
+}
+
+func setid(s int32) func(*Client) error {
+	return func(c *Client) error {
+		c.id = s
+		return nil
+	}
+}
+
 //SetPort sets the port of the client's SAM bridge using a string
 func SetPort(s string) func(*Client) error {
 	return func(c *Client) error {

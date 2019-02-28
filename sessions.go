@@ -2,7 +2,7 @@ package goSam
 
 import (
 	"fmt"
-	"math"
+	//	"math"
 	"math/rand"
 	"time"
 )
@@ -13,32 +13,31 @@ func init() {
 
 // CreateStreamSession creates a new STREAM Session.
 // Returns the Id for the new Client.
-func (c *Client) CreateStreamSession(dest string) (int32, string, error) {
+func (c *Client) CreateStreamSession(id int32, dest string) (string, error) {
 	if dest == "" {
 		dest = "TRANSIENT"
 	}
-
-	id := rand.Int31n(math.MaxInt32)
+	c.id = id
 	r, err := c.sendCmd(
 		"SESSION CREATE STYLE=STREAM ID=%d DESTINATION=%s %s %s\n",
-		id,
+		c.id,
 		dest,
 		c.sigtype(),
 		c.allOptions(),
 	)
 	if err != nil {
-		return -1, "", err
+		return "", err
 	}
 
 	// TODO: move check into sendCmd()
 	if r.Topic != "SESSION" || r.Type != "STATUS" {
-		return -1, "", fmt.Errorf("Unknown Reply: %+v\n", r)
+		return "", fmt.Errorf("Unknown Reply: %+v\n", r)
 	}
 
 	result := r.Pairs["RESULT"]
 	if result != "OK" {
-		return -1, "", ReplyError{ResultKeyNotFound, r}
+		return "", ReplyError{ResultKeyNotFound, r}
 	}
 
-	return id, r.Pairs["DESTINATION"], nil
+	return r.Pairs["DESTINATION"], nil
 }

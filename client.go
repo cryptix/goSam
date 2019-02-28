@@ -3,6 +3,8 @@ package goSam
 import (
 	"bufio"
 	"fmt"
+	"math"
+	"math/rand"
 	"net"
 
 	"github.com/cryptix/go/debug"
@@ -15,8 +17,10 @@ type Client struct {
 
 	SamConn net.Conn
 	rd      *bufio.Reader
+	//id      int32
 
-	sigType string
+	sigType     string
+	destination string
 
 	inLength   uint
 	inVariance int
@@ -41,6 +45,9 @@ type Client struct {
 	compression bool
 
 	debug bool
+	//NEVER, EVER modify lastaddr yourself.
+	lastaddr string
+	id       int32
 }
 
 var SAMsigTypes = []string{
@@ -61,6 +68,10 @@ func NewClient(addr string) (*Client, error) {
 	return NewClientFromOptions(SetAddr(addr))
 }
 
+func (c *Client) NewID() int32 {
+	return rand.Int31n(math.MaxInt32)
+}
+
 // NewClientFromOptions creates a new client, connecting to a specified port
 func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	var c Client
@@ -68,21 +79,22 @@ func NewClientFromOptions(opts ...func(*Client) error) (*Client, error) {
 	c.port = "7656"
 	c.inLength = 3
 	c.inVariance = 0
-	c.inQuantity = 4
-	c.inBackups = 2
+	c.inQuantity = 1
+	c.inBackups = 1
 	c.outLength = 3
 	c.outVariance = 0
-	c.outQuantity = 4
-	c.outBackups = 2
+	c.outQuantity = 1
+	c.outBackups = 1
 	c.dontPublishLease = true
 	c.encryptLease = false
 	c.reduceIdle = false
 	c.reduceIdleTime = 300000
-	c.reduceIdleQuantity = 4
+	c.reduceIdleQuantity = 1
 	c.closeIdle = true
 	c.closeIdleTime = 600000
 	c.debug = false
-	c.sigType = ""
+	c.sigType = SAMsigTypes[4]
+	c.id = 0
 	for _, o := range opts {
 		if err := o(&c); err != nil {
 			return nil, err
@@ -141,4 +153,30 @@ func (c *Client) sendCmd(str string, args ...interface{}) (*Reply, error) {
 func (c *Client) Close() error {
 	c.rd = nil
 	return c.SamConn.Close()
+}
+
+func (c *Client) NewClient() (*Client, error) {
+	return NewClientFromOptions(
+		SetHost(c.host),
+		SetPort(c.port),
+		SetDebug(c.debug),
+		SetInLength(c.inLength),
+		SetOutLength(c.outLength),
+		SetInVariance(c.inVariance),
+		SetOutVariance(c.outVariance),
+		SetInQuantity(c.inQuantity),
+		SetOutQuantity(c.outQuantity),
+		SetInBackups(c.inBackups),
+		SetOutBackups(c.outBackups),
+		SetUnpublished(c.dontPublishLease),
+		SetEncrypt(c.encryptLease),
+		SetReduceIdle(c.reduceIdle),
+		SetReduceIdleTime(c.reduceIdleTime),
+		SetReduceIdleQuantity(c.reduceIdleQuantity),
+		SetCloseIdle(c.closeIdle),
+		SetCloseIdleTime(c.closeIdleTime),
+		SetCompression(c.compression),
+		setlastaddr(c.lastaddr),
+		setid(c.id),
+	)
 }

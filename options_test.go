@@ -98,23 +98,26 @@ func TestOptionAddrMixedSlice(t *testing.T) {
 }
 
 func TestOptionHost(t *testing.T) {
-	client, err := NewClientFromOptions(SetHost("127.0.0.1"), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionPort(t *testing.T) {
-	client, err := NewClientFromOptions(SetPort("7656"), SetDebug(true))
+	client, err := NewClientFromOptions(
+		SetHost("127.0.0.1"),
+		SetPort("7656"),
+		SetInLength(3),
+		SetOutLength(3),
+		SetInVariance(1),
+		SetOutVariance(1),
+		SetInQuantity(6),
+		SetOutQuantity(6),
+		SetInBackups(2),
+		SetOutBackups(2),
+		SetEncrypt(true),
+		SetDebug(true),
+		SetUnpublished(true),
+		SetReduceIdle(true),
+		SetReduceIdleTime(300001),
+		SetReduceIdleQuantity(4),
+		SetCloseIdle(true),
+		SetCloseIdleTime(300001),
+	)
 	if err != nil {
 		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
 	}
@@ -130,272 +133,26 @@ func TestOptionPort(t *testing.T) {
 }
 
 func TestOptionPortInt(t *testing.T) {
-	client, err := NewClientFromOptions(SetPortInt(7656), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionDebug(t *testing.T) {
-	client, err := NewClientFromOptions(SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionInLength(t *testing.T) {
-	client, err := NewClientFromOptions(SetInLength(3), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.inlength()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionOutLength(t *testing.T) {
-	client, err := NewClientFromOptions(SetInLength(3), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.outlength()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionInVariance(t *testing.T) {
-	client, err := NewClientFromOptions(SetInVariance(1), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.invariance()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionOutVariance(t *testing.T) {
-	client, err := NewClientFromOptions(SetOutVariance(1), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.outvariance()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionInQuantity(t *testing.T) {
-	client, err := NewClientFromOptions(SetInQuantity(6), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.inquantity()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionOutQuantity(t *testing.T) {
-	client, err := NewClientFromOptions(SetOutQuantity(6), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.outquantity()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionInBackups(t *testing.T) {
-	client, err := NewClientFromOptions(SetInBackups(5), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.inbackups()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionOutBackups(t *testing.T) {
-	client, err := NewClientFromOptions(SetOutBackups(5), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	client.outbackups()
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionEncryptLease(t *testing.T) {
-	client, err := NewClientFromOptions(SetEncrypt(true), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionUnpublishedLease(t *testing.T) {
-	client, err := NewClientFromOptions(SetUnpublished(true), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionReduceIdle(t *testing.T) {
-	client, err := NewClientFromOptions(SetReduceIdle(true), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionReduceIdleTime(t *testing.T) {
-	client, err := NewClientFromOptions(SetReduceIdleTime(300001), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionReduceIdleCount(t *testing.T) {
-	client, err := NewClientFromOptions(SetReduceIdleQuantity(4), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-
-}
-
-func TestOptionCloseIdle(t *testing.T) {
-	client, err := NewClientFromOptions(SetCloseIdle(true), SetDebug(true))
-	if err != nil {
-		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
-	}
-	if result, err := client.validCreate(); err != nil {
-		t.Fatalf(err.Error())
-	} else {
-		t.Log(result)
-	}
-	client.CreateStreamSession("")
-	if err := client.Close(); err != nil {
-		t.Fatalf("client.Close() Error: %q\n", err)
-	}
-}
-
-func TestOptionCloseIdleTime(t *testing.T) {
-	client, err := NewClientFromOptions(SetCloseIdleTime(300001), SetDebug(true))
+	client, err := NewClientFromOptions(
+		SetHost("127.0.0.1"),
+		SetPortInt(7656),
+		SetInLength(3),
+		SetOutLength(3),
+		SetInVariance(1),
+		SetOutVariance(1),
+		SetInQuantity(6),
+		SetOutQuantity(6),
+		SetInBackups(2),
+		SetOutBackups(2),
+		SetEncrypt(true),
+		SetDebug(true),
+		SetUnpublished(true),
+		SetReduceIdle(true),
+		SetReduceIdleTime(300001),
+		SetReduceIdleQuantity(4),
+		SetCloseIdle(true),
+		SetCloseIdleTime(300001),
+	)
 	if err != nil {
 		t.Fatalf("NewClientFromOptions() Error: %q\n", err)
 	}
